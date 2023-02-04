@@ -19,7 +19,7 @@ namespace BACKEND.Controllers
         [Route("Lista")]
         public async Task<IActionResult> Lista()
         {
-            List<Categoria> lista = _dbcontext.Marcas.OrderByDescending(x => x.Nombre).ToList();
+            List<Categoria> lista = _dbcontext.Categorias.OrderByDescending(x => x.Nombre).ToList();
 
             return StatusCode(StatusCodes.Status200OK, lista);
         }
@@ -28,21 +28,53 @@ namespace BACKEND.Controllers
         [Route("Guardar")]
         public async Task<IActionResult> Guardar([FromBody] Categoria request)
         {
-            await _dbcontext.Marcas.AddAsync(request);
-            await _dbcontext.SaveChangesAsync();
+            using (var transaction = _dbcontext.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _dbcontext.Categorias.AddAsync(request);
+                    await _dbcontext.SaveChangesAsync();
 
-            return StatusCode(StatusCodes.Status200OK, "OK");
+                    return StatusCode(StatusCodes.Status200OK, "OK");
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return StatusCode(StatusCodes.Status500InternalServerError, "");
+                }
+            }
         }
 
         [HttpPost]
         [Route("Eliminar/{id:int}")]
         public async Task<IActionResult> Cerrar(int id)
         {
-            Categoria marca = _dbcontext.Marcas.Find(id);
-            _dbcontext.Marcas.Remove(marca);
-            await _dbcontext.SaveChangesAsync();
+            using (var transaction = _dbcontext.Database.BeginTransaction())
+            {
+                var lstFK = _dbcontext.Productos
+                .Where(x => x.CategoriaId == id)
+                .ToList().FirstOrDefault();
 
-            return StatusCode(StatusCodes.Status200OK, "OK");
+                if (lstFK == null)
+                {
+                    try
+                    {
+                        Categoria marca = _dbcontext.Categorias.Find(id);
+                        _dbcontext.Categorias.Remove(marca);
+                        await _dbcontext.SaveChangesAsync();
+                        return StatusCode(StatusCodes.Status200OK, "OK");
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        return StatusCode(StatusCodes.Status500InternalServerError,"");
+                    }
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status404NotFound, "La categoria hace referencia a un producto");
+                }
+            }
         }
     }
 }

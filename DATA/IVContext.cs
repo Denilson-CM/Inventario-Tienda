@@ -12,7 +12,7 @@ namespace DATA
 
         #region [ DbSet's ]
         public DbSet<Producto> Productos { get; set; }
-        public DbSet<Categoria> Marcas { get; set; }
+        public DbSet<Categoria> Categorias { get; set; }
         #endregion
 
     }
