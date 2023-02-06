@@ -26,3 +26,17 @@ C:\Practicas\Inventario\DATA\obj\Debug\net6.0\refint\DATA.dll
 C:\Practicas\Inventario\DATA\obj\Debug\net6.0\DATA.pdb
 C:\Practicas\Inventario\DATA\obj\Debug\net6.0\DATA.genruntimeconfig.cache
 C:\Practicas\Inventario\DATA\obj\Debug\net6.0\ref\DATA.dll
+C:\Users\AlexJ\Desktop\Codes\Proyecto Dena-Inventario\Inventario-Tienda\DATA\bin\Debug\net6.0\DATA.deps.json
+C:\Users\AlexJ\Desktop\Codes\Proyecto Dena-Inventario\Inventario-Tienda\DATA\bin\Debug\net6.0\DATA.runtimeconfig.json
+C:\Users\AlexJ\Desktop\Codes\Proyecto Dena-Inventario\Inventario-Tienda\DATA\bin\Debug\net6.0\DATA.dll
+C:\Users\AlexJ\Desktop\Codes\Proyecto Dena-Inventario\Inventario-Tienda\DATA\bin\Debug\net6.0\DATA.pdb
+C:\Users\AlexJ\Desktop\Codes\Proyecto Dena-Inventario\Inventario-Tienda\DATA\obj\Debug\net6.0\DATA.csproj.AssemblyReference.cache
+C:\Users\AlexJ\Desktop\Codes\Proyecto Dena-Inventario\Inventario-Tienda\DATA\obj\Debug\net6.0\DATA.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\AlexJ\Desktop\Codes\Proyecto Dena-Inventario\Inventario-Tienda\DATA\obj\Debug\net6.0\DATA.AssemblyInfoInputs.cache
+C:\Users\AlexJ\Desktop\Codes\Proyecto Dena-Inventario\Inventario-Tienda\DATA\obj\Debug\net6.0\DATA.AssemblyInfo.cs
+C:\Users\AlexJ\Desktop\Codes\Proyecto Dena-Inventario\Inventario-Tienda\DATA\obj\Debug\net6.0\DATA.csproj.CoreCompileInputs.cache
+C:\Users\AlexJ\Desktop\Codes\Proyecto Dena-Inventario\Inventario-Tienda\DATA\obj\Debug\net6.0\DATA.dll
+C:\Users\AlexJ\Desktop\Codes\Proyecto Dena-Inventario\Inventario-Tienda\DATA\obj\Debug\net6.0\refint\DATA.dll
+C:\Users\AlexJ\Desktop\Codes\Proyecto Dena-Inventario\Inventario-Tienda\DATA\obj\Debug\net6.0\DATA.pdb
+C:\Users\AlexJ\Desktop\Codes\Proyecto Dena-Inventario\Inventario-Tienda\DATA\obj\Debug\net6.0\DATA.genruntimeconfig.cache
+C:\Users\AlexJ\Desktop\Codes\Proyecto Dena-Inventario\Inventario-Tienda\DATA\obj\Debug\net6.0\ref\DATA.dll
