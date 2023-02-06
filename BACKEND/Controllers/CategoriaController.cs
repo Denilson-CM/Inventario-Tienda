@@ -2,6 +2,7 @@
 using DATA;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using BACKEND.Models;
 
 namespace BACKEND.Controllers
 {
@@ -10,6 +11,8 @@ namespace BACKEND.Controllers
     public class CategoriaController : ControllerBase
     {
         private readonly IVContext _dbcontext;
+
+        private Guid IdGuid = Guid.NewGuid();
         public CategoriaController(IVContext context)
         {
             _dbcontext = context;
@@ -26,16 +29,24 @@ namespace BACKEND.Controllers
 
         [HttpPost]
         [Route("Guardar")]
-        public async Task<IActionResult> Guardar([FromBody] Categoria request)
+        public async Task<IActionResult> Guardar([FromBody] CategoriaViewModel model)
         {
             using (var transaction = _dbcontext.Database.BeginTransaction())
             {
                 try
                 {
-                    await _dbcontext.Categorias.AddAsync(request);
+                    var result = new Categoria()
+                    {
+                        Id = IdGuid,
+                        Nombre = model.Nombre,
+                        Descripcion = model.Descripcion,
+                        CreatedAt = model.CreatedAt
+                    };
+                    await _dbcontext.Categorias.AddAsync(result);
                     await _dbcontext.SaveChangesAsync();
 
-                    return StatusCode(StatusCodes.Status200OK, "OK");
+                    transaction.Commit();
+                    return StatusCode(StatusCodes.Status200OK, "Categoria Guardada");
                 }
                 catch (Exception ex)
                 {
@@ -46,13 +57,13 @@ namespace BACKEND.Controllers
         }
 
         [HttpPost]
-        [Route("Eliminar/{id:int}")]
-        public async Task<IActionResult> Cerrar(int id)
+        [Route("Eliminar/{id}")]
+        public async Task<IActionResult> Cerrar(Guid id)
         {
             using (var transaction = _dbcontext.Database.BeginTransaction())
             {
                 var lstFK = _dbcontext.Productos
-                .Where(x => x.CategoriaId == id)
+                .Where(x => x.Id == id)
                 .ToList().FirstOrDefault();
 
                 if (lstFK == null)
@@ -62,7 +73,7 @@ namespace BACKEND.Controllers
                         Categoria marca = _dbcontext.Categorias.Find(id);
                         _dbcontext.Categorias.Remove(marca);
                         await _dbcontext.SaveChangesAsync();
-                        return StatusCode(StatusCodes.Status200OK, "OK");
+                        return StatusCode(StatusCodes.Status200OK, "Categoria Eliminada");
                     }
                     catch (Exception ex)
                     {

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DATA.Migrations
 {
-    public partial class Producto_Precios : Migration
+    public partial class Categoria_Producto_Id_Guid : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,15 +17,16 @@ namespace DATA.Migrations
                 schema: "app",
                 columns: table => new
                 {
-                    idCategoria = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    fecha_registroC = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    created_at = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    modified_at = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    is_active = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_categoria", x => x.idCategoria);
+                    table.PrimaryKey("PK_categoria", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -33,24 +34,25 @@ namespace DATA.Migrations
                 schema: "app",
                 columns: table => new
                 {
-                    idProducto = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     codigo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     precio_compra = table.Column<decimal>(type: "decimal(10,4)", nullable: true),
                     precio_venta = table.Column<decimal>(type: "decimal(10,4)", nullable: true),
-                    fecha_registroP = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    fk_categoria_id = table.Column<int>(type: "int", nullable: false)
+                    fk_categoria_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    created_at = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    modified_at = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    is_active = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_producto", x => x.idProducto);
+                    table.PrimaryKey("PK_producto", x => x.id);
                     table.ForeignKey(
                         name: "FK_producto_categoria_fk_categoria_id",
                         column: x => x.fk_categoria_id,
                         principalSchema: "app",
                         principalTable: "categoria",
-                        principalColumn: "idCategoria",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 

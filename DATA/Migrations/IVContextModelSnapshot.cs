@@ -24,42 +24,46 @@ namespace DATA.Migrations
 
             modelBuilder.Entity("DATA.Entities.Categoria", b =>
                 {
-                    b.Property<int>("IdCategoria")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("idCategoria");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCategoria"), 1L, 1);
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("Descripcion")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("descripcion");
 
-                    b.Property<DateTime?>("FechaRegistroC")
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit")
+                        .HasColumnName("is_active");
+
+                    b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime2")
-                        .HasColumnName("fecha_registroC");
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("nombre");
 
-                    b.HasKey("IdCategoria");
+                    b.HasKey("Id");
 
                     b.ToTable("categoria", "app");
                 });
 
             modelBuilder.Entity("DATA.Entities.Producto", b =>
                 {
-                    b.Property<int>("IdProducto")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("idProducto");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdProducto"), 1L, 1);
-
-                    b.Property<int>("CategoriaId")
-                        .HasColumnType("int")
+                    b.Property<Guid>("CategoriaId")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("fk_categoria_id");
 
                     b.Property<string>("Codigo")
@@ -67,9 +71,17 @@ namespace DATA.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("codigo");
 
-                    b.Property<DateTime?>("FechaRegistroP")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2")
-                        .HasColumnName("fecha_registroP");
+                        .HasColumnName("created_at");
+
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit")
+                        .HasColumnName("is_active");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -82,7 +94,7 @@ namespace DATA.Migrations
                     b.Property<decimal?>("precio_venta")
                         .HasColumnType("decimal(10,4)");
 
-                    b.HasKey("IdProducto");
+                    b.HasKey("Id");
 
                     b.HasIndex("CategoriaId");
 
