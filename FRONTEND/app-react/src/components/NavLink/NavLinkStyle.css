@@ -1,0 +1,7 @@
+.is-active-item {
+  font-weight: bold;
+  color: red;
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+}
