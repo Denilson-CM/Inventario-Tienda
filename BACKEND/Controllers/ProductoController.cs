@@ -14,7 +14,6 @@ namespace BACKEND.Controllers
     public class ProductoController : ControllerBase
     {
         private readonly IVContext _dbcontext;
-        private Guid IdGuid = Guid.NewGuid();
 
         public ProductoController(IVContext context)
         {
@@ -25,58 +24,79 @@ namespace BACKEND.Controllers
         [Route("Lista")]
         public async Task<IActionResult> Lista()
         {
-
-            List<Producto> lista = _dbcontext.Productos.OrderByDescending(x => x.Nombre).ToList();
+            var lista = _dbcontext.Productos
+                .Where(x => x.CategoriaId == x.Categoria.Id)
+                .Select(x => new
+                {
+                    idProducto = x.Id,
+                    nombre = x.Nombre,
+                    codigo = x.Codigo,
+                    idCategoria = x.CategoriaId,
+                    nombreCategoria = x.Categoria.Nombre
+                }).OrderByDescending(x => x.nombre).ToList();
 
             return StatusCode(StatusCodes.Status200OK, lista);
         }
 
         [HttpPost]
         [Route("Guardar")]
-        public async Task<IActionResult> Guardar([FromBody] ProductoViewModel model)
+        public async Task<IActionResult> Guardar([FromBody] PostRegistroProductoViewModel model)
         {
-            using (var transaction = _dbcontext.Database.BeginTransaction())
+            if (ModelState.IsValid)
             {
-                try
+                using (var transaction = _dbcontext.Database.BeginTransaction())
                 {
-                    var existe = _dbcontext.Productos
-                        .Where(x => x.Nombre.ToUpper().Trim() == model.Nombre.ToUpper().Trim() || x.Codigo.ToUpper().Trim() == model.Codigo.ToUpper().Trim());
-
-                    if (existe != null)
+                    try
                     {
-                        var result = new Producto()
-                        {
-                            Id = IdGuid,
-                            Nombre = model.Nombre.Trim(),
-                            Codigo = model.Codigo.Trim(),
-                            precio_compra = model.precio_compra,
-                            precio_venta = model.precio_venta,
-                            CreatedAt = model.CreatedAt,
-                            CategoriaId = model.CategoriaId
-                        };
+                        int contadorE = 0;
+                        int bandera = 0;
 
-                        await _dbcontext.Productos.AddAsync(result);
+                        foreach (var item in model.RegistoProducto)
+                        {
+                            var existe = _dbcontext.Productos
+                            .Where(x => x.Nombre.ToUpper().Trim() == item.Nombre.ToUpper().Trim() || x.Codigo.ToUpper().Trim() == item.Codigo.ToUpper().Trim())
+                            .FirstOrDefault();
+
+                            if (existe == null)
+                            {
+                                var result = new Producto()
+                                {
+                                    Id = Guid.NewGuid(),
+                                    Nombre = item.Nombre,
+                                    Codigo = item.Codigo,
+                                    precio_compra = item.precio_compra,
+                                    precio_venta = item.precio_venta,
+                                    CategoriaId = item.CategoriaId
+                                };
+
+                                await _dbcontext.Productos.AddAsync(result);
+                                bandera++;
+                            }
+                            else
+                            {
+                                contadorE++;
+                            }
+
+                        }
+
                         await _dbcontext.SaveChangesAsync();
 
                         transaction.Commit();
-                        return StatusCode(StatusCodes.Status200OK, "Producto Guardado");
+                        return StatusCode(StatusCodes.Status200OK, new { success = $"{contadorE} productos ya existían en la base de datos y se crean {bandera} nuevos productos.." });
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        return StatusCode(StatusCodes.Status200OK, "Ya existe un producto con el mismo Nombre o Codigo");
+                        transaction.Rollback();
+                        return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrio un erro al Guardar");
                     }
-                }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrio un erro al Guardar");
                 }
             }
+            return StatusCode(StatusCodes.Status500InternalServerError, "Modelo Invalido" );
         }
 
         [HttpPost]
         [Route("Editar")]
-        public async Task<IActionResult> Editar([FromBody] ProductoViewModel model)
+        public async Task<IActionResult> Editar([FromBody] EditProductoViewModel model)
         {
             using (var transaction = _dbcontext.Database.BeginTransaction())
             {
@@ -112,7 +132,7 @@ namespace BACKEND.Controllers
                     }
                     else
                     {
-                        return StatusCode(StatusCodes.Status400BadRequest, "La talla no existe");
+                        return StatusCode(StatusCodes.Status400BadRequest, "eL Producto no existe");
                     }
                 }
                 catch (Exception ex)

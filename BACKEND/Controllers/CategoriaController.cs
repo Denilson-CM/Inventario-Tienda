@@ -11,8 +11,6 @@ namespace BACKEND.Controllers
     public class CategoriaController : ControllerBase
     {
         private readonly IVContext _dbcontext;
-
-        private Guid IdGuid = Guid.NewGuid();
         public CategoriaController(IVContext context)
         {
             _dbcontext = context;
@@ -29,31 +27,54 @@ namespace BACKEND.Controllers
 
         [HttpPost]
         [Route("Guardar")]
-        public async Task<IActionResult> Guardar([FromBody] CategoriaViewModel model)
+        public async Task<IActionResult> Guardar([FromBody] PostRegistroCategoriaViewModel model)
         {
-            using (var transaction = _dbcontext.Database.BeginTransaction())
+            if (ModelState.IsValid)
             {
-                try
+                using (var transaction = _dbcontext.Database.BeginTransaction())
                 {
-                    var result = new Categoria()
+                    try
                     {
-                        Id = IdGuid,
-                        Nombre = model.Nombre,
-                        Descripcion = model.Descripcion,
-                        CreatedAt = model.CreatedAt
-                    };
-                    await _dbcontext.Categorias.AddAsync(result);
-                    await _dbcontext.SaveChangesAsync();
+                        int contadorE = 0;
+                        int bandera = 0;
 
-                    transaction.Commit();
-                    return StatusCode(StatusCodes.Status200OK, "Categoria Guardada");
-                }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    return StatusCode(StatusCodes.Status500InternalServerError, "");
+                        foreach (var item in model.RegistroCategoria)
+                        {
+                            var existe = _dbcontext.Categorias
+                           .Where(x => x.Nombre.ToUpper().Trim() == item.Nombre.ToUpper().Trim())
+                           .FirstOrDefault();
+
+                            if (existe == null)
+                            {
+                                var result = new Categoria()
+                                {
+                                    Id = Guid.NewGuid(),
+                                    Nombre = item.Nombre,
+                                    Descripcion = item.Descripcion
+                                };
+
+                                await _dbcontext.Categorias.AddAsync(result);
+                                bandera++;
+                            }
+                            else
+                            {
+                                contadorE++;
+                            }
+                        }
+
+                        await _dbcontext.SaveChangesAsync();
+
+                        transaction.Commit();
+                        return StatusCode(StatusCodes.Status200OK, new { success = $"{contadorE} categorias ya existían en la base de datos y se crean {bandera} nuevas categorias.." });
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        return StatusCode(StatusCodes.Status500InternalServerError, "");
+                    }
                 }
             }
+            return StatusCode(StatusCodes.Status500InternalServerError, "Modelo Invalido");
         }
 
         [HttpPost]
@@ -73,6 +94,8 @@ namespace BACKEND.Controllers
                         Categoria marca = _dbcontext.Categorias.Find(id);
                         _dbcontext.Categorias.Remove(marca);
                         await _dbcontext.SaveChangesAsync();
+
+                        transaction.Commit();
                         return StatusCode(StatusCodes.Status200OK, "Categoria Eliminada");
                     }
                     catch (Exception ex)
