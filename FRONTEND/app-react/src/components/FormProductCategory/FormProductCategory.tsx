@@ -3,29 +3,29 @@ export const FormProductCategory = () => {
   return (
     <form>
       <div className="mb-3">
-        <label htmlFor="nombre-producto" className="form-label">
-          Nombre del producto
+        <label htmlFor="nombre-categoria" className="form-label">
+          Categoria
         </label>
         <input
-          type="email"
+          type="text"
           className="form-control"
-          id="nombre-producto"
+          id="nombre-categoria"
           aria-describedby="emailHelp"
         />
       </div>
       <div className="mb-3">
-        <label htmlFor="descripcion-producto" className="form-label">
-          Descripcion del producto
+        <label htmlFor="descripcion-categoria" className="form-label">
+          Descripcion de la categoria
         </label>
         <input
-          type="password"
+          type="text"
           className="form-control"
-          id="descripcion-producto"
+          id="descripcion-categoria"
         />
       </div>
 
       <button type="submit" className="btn btn-primary">
-        Submit
+        Agregar
       </button>
     </form>
   );

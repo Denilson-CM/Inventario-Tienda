@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import { BtnShowModal } from "../../components/BtnShowModal/BtnShowModal";
 import { FormProductCategory } from "../../components/FormProductCategory/FormProductCategory";
+import { ModalInfo } from "../../components/ModalInfo/ModalInfo";
 import { TableCategory } from "../../components/TableCategory/TableCategory";
 import { urlListaC } from "../../endpoints";
 import { useFormCategory } from "../../hooks/useFormCategory";
@@ -21,15 +23,32 @@ export const NewCategoryPage = () => {
   }, []);
 
   return (
-    <section className="container bg-danger">
-      <article className="row">
-        <section className="col-8">
+    <section className="container">
+      <section className="row mb-3 ">
+        <article className="col-6 d-flex justify-content-start">
+          <input
+            type="email"
+            className="form-control "
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            placeholder="Nombre de la categoria"
+          />
+        </article>
+        <article className="col-6 d-flex justify-content-end">
+          <BtnShowModal titleBtnModal="Agregar Categorias" />
+        </article>
+      </section>
+      <article className="row ">
+        <section className="col-12 d-flex justify-content-center align-items-center border ">
           <TableCategory listApiCategories={listApiCategories} />
         </section>
-        <section className="col-4">
-          <FormProductCategory />
-        </section>
       </article>
+      <ModalInfo titleModal="Agregar Categorias">
+        <section>
+          <FormProductCategory />
+          <TableCategory listApiCategories={[]} />
+        </section>
+      </ModalInfo>
     </section>
   );
 };

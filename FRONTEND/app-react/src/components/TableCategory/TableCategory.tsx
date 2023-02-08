@@ -5,10 +5,10 @@ interface Props {
 export const TableCategory = (props: Props) => {
   const { listApiCategories } = props;
   return (
-    <table className="table">
+    <table className="table table-striped">
       <thead>
         <tr>
-          <th scope="col">Producto</th>
+          <th scope="col">Categoria</th>
           <th scope="col">Descripción</th>
           <th scope="col">Fecha de registro</th>
         </tr>
