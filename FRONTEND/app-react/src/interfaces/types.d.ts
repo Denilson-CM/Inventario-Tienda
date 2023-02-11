@@ -1,8 +1,8 @@
 export interface Categories {
-  idCategoria: number;
+  id: string;
   nombre: string;
   descripcion: string;
-  fecha_registroC: Date;
+  createdAt: string;
 }
 interface Product {
   idProducto: number;

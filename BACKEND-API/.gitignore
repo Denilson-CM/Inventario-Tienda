@@ -1,0 +1,5 @@
+/.vs
+/BACKEND/obj
+/DATA/obj
+/BACKEND/bin/Debug/net6.0
+/DATA/bin/Debug/net6.0
