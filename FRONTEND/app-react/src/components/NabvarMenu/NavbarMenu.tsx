@@ -1,10 +1,10 @@
 import { NavLink } from "../NavLink/NavLink";
-
+import "./StyleNavbarMenu.css";
 export const NavbarMenu = () => {
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary ">
-      <div className="container-fluid">
-        <h2 className="">System DK</h2>
+    <nav className="navbar navbar-expand-lg bg-body-tertiary height-medium-devices d-flex align-items-md-start">
+      <div className="container-fluid d-md-flex flex-md-column">
+        <h2 className="mb-md-4 fs-1">System DK</h2>
         <button
           className="navbar-toggler"
           type="button"
@@ -20,12 +20,12 @@ export const NavbarMenu = () => {
           className=" collapse navbar-collapse justify-content-end"
           id="navbarNavDropdown"
         >
-          <ul className="navbar-nav">
+          <ul className="navbar-nav  flex-md-column justify-content-md-center align-items-md-center px-3">
             <NavLink to="/">Productos</NavLink>
 
-            <ul className="nav-item dropdown">
+            <ul className="nav-item dropdown p-0">
               <li
-                className="nav-link dropdown-toggle"
+                className="nav-link dropdown-toggle fs-5"
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"

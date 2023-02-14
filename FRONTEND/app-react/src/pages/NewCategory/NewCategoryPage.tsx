@@ -2,7 +2,7 @@ import { BtnShowModal } from "../../components/BtnShowModal/BtnShowModal";
 import { FormProductCategory } from "../../components/FormProductCategory/FormProductCategory";
 import { Loader } from "../../components/Loader/Loader";
 import { ModalInfo } from "../../components/ModalInfo/ModalInfo";
-import { TableCategory } from "../../components/TableCategory/TableCategory";
+import { MyTable } from "../../components/MyTable/MyTable";
 import { useCategories } from "../../hooks/useCategories";
 
 export const NewCategoryPage = () => {
@@ -28,58 +28,14 @@ export const NewCategoryPage = () => {
           {loading ? (
             <Loader />
           ) : (
-            <TableCategory>
-              <thead>
-                <tr>
-                  <th scope="col">Categoria</th>
-                  <th scope="col">Descripción</th>
-                  <th scope="col">Fecha de registro</th>
-                </tr>
-              </thead>
-              <tbody>
-                {!error ? (
-                  listApiCategories.map((categorie) => (
-                    <tr key={categorie?.id}>
-                      {/* <th scope="row">{categorie?.id}</th> */}
-                      <td>{categorie?.nombre}</td>
-                      <td>{categorie?.descripcion}</td>
-                      <td>{categorie?.createdAt.slice(0, 10)}</td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={5} className="bg-danger text-center">
-                      <h2>Sin datos</h2>
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </TableCategory>
+            <MyTable list={listApiCategories} error={error} />
           )}
         </section>
       </article>
       <ModalInfo titleModal="Agregar Categorias">
         <section>
           <FormProductCategory />
-          <TableCategory>
-            <thead>
-              <tr>
-                <th scope="col">Categoria</th>
-                <th scope="col">Descripción</th>
-                <th scope="col">Fecha de registro</th>
-              </tr>
-            </thead>
-            <tbody>
-              {listApiCategories.map((categorie) => (
-                <tr key={categorie?.id}>
-                  {/* <th scope="row">{categorie?.id}</th> */}
-                  <td>{categorie?.nombre}</td>
-                  <td>{categorie?.descripcion}</td>
-                  <td>{categorie?.createdAt.slice(0, 10)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </TableCategory>
+          <MyTable list={[]} />
         </section>
       </ModalInfo>
     </section>
