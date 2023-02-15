@@ -110,5 +110,27 @@ namespace BACKEND.Controllers
                 }
             }
         }
+
+        [HttpGet]
+        [Route("detalle/{id}")]
+        public IActionResult Detalle(Guid id)
+        {
+            var result = _dbcontext.Categorias
+                .Where(x => x.Id == id)
+                .Select(x => new
+                {
+                    id = x.Id,
+                    nombre = x.Nombre,
+                    descripcion = x.Descripcion,
+                    is_active = x.IsActive
+                }).FirstOrDefault();
+
+            if (result != null)
+            {
+                return StatusCode(StatusCodes.Status200OK, new { success = true, response = result });
+            }
+            return StatusCode(StatusCodes.Status200OK, new { success = true, response = "No existe la categoria" });
+
+        }
     }
 }
