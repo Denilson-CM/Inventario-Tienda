@@ -20,7 +20,14 @@ namespace BACKEND.Controllers
         [Route("Lista")]
         public async Task<IActionResult> Lista()
         {
-            List<Categoria> lista = _dbcontext.Categorias.OrderByDescending(x => x.Nombre).ToList();
+            var lista = _dbcontext.Categorias
+                .Select(x => new
+                {
+                    idCategoria = x.Id,
+                    nombre = x.Nombre,
+                    descripcion = x.Descripcion,
+                    fecha_Creacion = x.Fecha_Creacion.Value.ToShortDateString()
+                }).OrderByDescending(x => x.fecha_Creacion).ToList();
 
             return StatusCode(StatusCodes.Status200OK, lista);
         }
@@ -122,7 +129,8 @@ namespace BACKEND.Controllers
                     id = x.Id,
                     nombre = x.Nombre,
                     descripcion = x.Descripcion,
-                    is_active = x.IsActive
+                    is_active = x.IsActive,
+                    fecha_Creacion = x.Fecha_Creacion.Value.ToShortDateString()
                 }).FirstOrDefault();
 
             if (result != null)

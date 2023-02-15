@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DATA.Migrations
 {
-    public partial class Categoria_Producto_Id_Guid : Migration
+    public partial class CambioFecha : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,8 +20,7 @@ namespace DATA.Migrations
                     id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    created_at = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    modified_at = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    fecha_creacion = table.Column<DateTime>(type: "datetime2", nullable: true),
                     is_active = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
@@ -40,8 +39,7 @@ namespace DATA.Migrations
                     precio_compra = table.Column<decimal>(type: "decimal(10,4)", nullable: true),
                     precio_venta = table.Column<decimal>(type: "decimal(10,4)", nullable: true),
                     fk_categoria_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    created_at = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    modified_at = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    fecha_creacion = table.Column<DateTime>(type: "datetime2", nullable: true),
                     is_active = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>

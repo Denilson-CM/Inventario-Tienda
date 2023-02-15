@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DATA.Migrations
 {
     [DbContext(typeof(IVContext))]
-    [Migration("20230205040649_Categoria_Producto_Id_Guid")]
-    partial class Categoria_Producto_Id_Guid
+    [Migration("20230215002113_CambioFecha")]
+    partial class CambioFecha
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,21 +31,17 @@ namespace DATA.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("id");
 
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("created_at");
-
                     b.Property<string>("Descripcion")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("descripcion");
 
+                    b.Property<DateTime?>("Fecha_Creacion")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("fecha_creacion");
+
                     b.Property<bool?>("IsActive")
                         .HasColumnType("bit")
                         .HasColumnName("is_active");
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("modified_at");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -73,17 +69,13 @@ namespace DATA.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("codigo");
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime?>("Fecha_Creacion")
                         .HasColumnType("datetime2")
-                        .HasColumnName("created_at");
+                        .HasColumnName("fecha_creacion");
 
                     b.Property<bool?>("IsActive")
                         .HasColumnType("bit")
                         .HasColumnName("is_active");
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("modified_at");
 
                     b.Property<string>("Nombre")
                         .IsRequired()

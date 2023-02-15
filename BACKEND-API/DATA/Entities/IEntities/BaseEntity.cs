@@ -6,7 +6,6 @@ using System.Linq;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
-using DATA.Migrations;
 
 namespace DATA.Entities.IEntities
 {
@@ -16,11 +15,8 @@ namespace DATA.Entities.IEntities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
-        [Column("created_at")]
-        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
-
-        [Column("modified_at")]
-        public DateTime? ModifiedAt { get; set; } = DateTime.UtcNow;
+        [Column("fecha_creacion")]
+        public DateTime? Fecha_Creacion { get; set; } = DateTime.Now.Date;
 
         [Column("is_active")]
         public bool? IsActive { get; set; } = true;
