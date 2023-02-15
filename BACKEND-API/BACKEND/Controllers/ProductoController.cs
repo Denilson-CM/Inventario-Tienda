@@ -32,7 +32,8 @@ namespace BACKEND.Controllers
                     nombre = x.Nombre,
                     codigo = x.Codigo,
                     idCategoria = x.CategoriaId,
-                    nombreCategoria = x.Categoria.Nombre
+                    nombreCategoria = x.Categoria.Nombre,
+                    fecha_Creacion = x.Fecha_Creacion.Value.ToShortDateString()
                 }).OrderByDescending(x => x.nombre).ToList();
 
             return StatusCode(StatusCodes.Status200OK, lista);
@@ -181,7 +182,8 @@ namespace BACKEND.Controllers
                     pCompra = x.precio_compra,
                     pVenta = x.precio_venta,
                     idCategoria = x.CategoriaId,
-                    nombreCategoria = x.Categoria.Nombre
+                    nombreCategoria = x.Categoria.Nombre,
+                    fecha_Creacion = x.Fecha_Creacion.Value.ToShortDateString()
                 }).FirstOrDefault();
 
             if (result != null)
