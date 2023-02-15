@@ -165,5 +165,31 @@ namespace BACKEND.Controllers
                 }
             }
         }
+
+        [HttpGet]
+        [Route("detalle/{id}")]
+        public IActionResult Detalle(Guid id)
+        {
+            var result = _dbcontext.Productos
+                .Where(x => x.Id == id)
+                .Where(x => x.CategoriaId == x.Categoria.Id)
+                .Select(x => new
+                {
+                    id = x.Id,
+                    nombre = x.Nombre,
+                    codigo = x.Codigo,
+                    pCompra = x.precio_compra,
+                    pVenta = x.precio_venta,
+                    idCategoria = x.CategoriaId,
+                    nombreCategoria = x.Categoria.Nombre
+                }).FirstOrDefault();
+
+            if (result != null)
+            {
+                return StatusCode(StatusCodes.Status200OK, new { success = true, response = result });
+            }
+            return StatusCode(StatusCodes.Status200OK, new { success = true, response = "No existe el producto" });
+
+        }
     }
 }
