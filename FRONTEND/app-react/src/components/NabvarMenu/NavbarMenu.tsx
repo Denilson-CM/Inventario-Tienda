@@ -2,7 +2,7 @@ import { NavLink } from "../NavLink/NavLink";
 import "./StyleNavbarMenu.css";
 export const NavbarMenu = () => {
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary height-medium-devices d-flex align-items-md-start">
+    <nav className="navbar navbar-expand-lg bg-info-subtle height-medium-devices d-flex align-items-md-start">
       <div className="container-fluid d-md-flex flex-md-column">
         <h2 className="mb-md-4 fs-1">System DK</h2>
         <button
