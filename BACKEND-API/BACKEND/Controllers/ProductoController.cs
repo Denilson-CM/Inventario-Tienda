@@ -106,7 +106,7 @@ namespace BACKEND.Controllers
             return StatusCode(StatusCodes.Status500InternalServerError, "Modelo Invalido" );
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("Editar")]
         public async Task<IActionResult> Editar([FromBody] ListViewModel model)
         {
@@ -155,9 +155,9 @@ namespace BACKEND.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpDelete]
         [Route("Eliminar/{id:int}")]
-        public async Task<IActionResult> Cerrar(int id)
+        public async Task<IActionResult> Eliminar(int id)
         {
             using (var transaction = _dbcontext.Database.BeginTransaction())
             {

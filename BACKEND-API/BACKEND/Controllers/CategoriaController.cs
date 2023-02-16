@@ -95,7 +95,7 @@ namespace BACKEND.Controllers
             return StatusCode(StatusCodes.Status500InternalServerError, "Modelo Invalido");
         }
 
-        [HttpPost]
+        [HttpDelete]
         [Route("Eliminar/{id}")]
         public async Task<IActionResult> Cerrar(Guid id)
         {
