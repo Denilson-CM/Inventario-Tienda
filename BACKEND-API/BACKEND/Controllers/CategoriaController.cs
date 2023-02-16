@@ -97,7 +97,7 @@ namespace BACKEND.Controllers
 
         [HttpDelete]
         [Route("Eliminar/{id}")]
-        public async Task<IActionResult> Cerrar(Guid id)
+        public async Task<IActionResult> Eliminar(Guid id)
         {
             using (var transaction = _dbcontext.Database.BeginTransaction())
             {
