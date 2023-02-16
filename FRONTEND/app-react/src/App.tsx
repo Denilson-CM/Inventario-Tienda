@@ -12,7 +12,7 @@ function App() {
       <section className="d-block d-md-none container">
         <NavbarMenu></NavbarMenu>
       </section>
-      <section className="container-fluid bg-primary vh-100">
+      <section className="container-fluid bg-light vh-100">
         <section className="row">
           <section className="d-none d-md-block col-2 m-0 p-0">
             <NavbarMenu></NavbarMenu>

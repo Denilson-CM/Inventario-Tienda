@@ -7,10 +7,17 @@ export const useCategories = () => {
   const [listApiCategories, setListApiCategories] = useState<Array<Categories>>(
     []
   );
+  const [listNewCategories, setListNewCategories] = useState<Array<Categories>>(
+    []
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Object>({});
 
-  const getCategories = async () => {
+  useEffect(() => {
+    getCategoriesFromApi();
+  }, []);
+
+  const getCategoriesFromApi = async () => {
     try {
       setLoading(true);
       let resApi = await helpHttp().get(urlListaC);
@@ -23,13 +30,29 @@ export const useCategories = () => {
     }
   };
 
-  useEffect(() => {
-    getCategories();
-  }, []);
+  const addNewCategorie = (newCategorie: Categories) => {
+    setListNewCategories([...listNewCategories, newCategorie]);
+  };
+
+  const postCategorie = () => {
+    const listPostCategorie = listNewCategories.map((categorie) => {
+      let newObject: Categories = {
+        nombre: "",
+        descripcion: "",
+      };
+      newObject.nombre = categorie.nombre;
+      newObject.descripcion = categorie.descripcion;
+      return newObject;
+    });
+    console.log(listPostCategorie);
+  };
 
   return {
     listApiCategories,
     loading,
     error,
+    addNewCategorie,
+    postCategorie,
+    listNewCategories,
   };
 };

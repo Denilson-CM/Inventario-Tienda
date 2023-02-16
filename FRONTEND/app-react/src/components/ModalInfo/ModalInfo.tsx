@@ -1,9 +1,11 @@
 interface Props {
   titleModal: string;
+  titleButtonSave?: string;
   children: JSX.Element;
+  eventSave?: () => void;
 }
 export const ModalInfo = (props: Props) => {
-  const { children, titleModal } = props;
+  const { children, titleModal, titleButtonSave = "Enviar", eventSave } = props;
   return (
     <div
       className="modal fade"
@@ -36,8 +38,12 @@ export const ModalInfo = (props: Props) => {
             >
               Cérrar
             </button>
-            <button type="button" className="btn btn-primary">
-              Guardar
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={eventSave}
+            >
+              {titleButtonSave}
             </button>
           </div>
         </div>

@@ -6,7 +6,7 @@ export const BtnShowModal = (props: Props) => {
   return (
     <button
       type="button"
-      className="btn btn-primary"
+      className="btn bg-info-subtle"
       data-bs-toggle="modal"
       data-bs-target="#staticBackdrop"
     >

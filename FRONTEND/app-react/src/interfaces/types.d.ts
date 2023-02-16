@@ -1,8 +1,8 @@
 export interface Categories {
-  id: string;
+  id?: string;
   nombre: string;
   descripcion: string;
-  createdAt: string;
+  createdAt?: string;
 }
 export interface Product {
   idProducto: number;
@@ -17,4 +17,14 @@ export interface RequestInit {
   headers?: HeadersInit;
   method?: string;
   signal?: AbortSignal;
+}
+
+export interface PropsFormCategory {
+  methodsFormCategorie: {
+    addNewCategorie: (newCategorie: Categories) => void;
+  };
+}
+
+export interface PropsInputForm {
+  valuesInputForm: {};
 }
