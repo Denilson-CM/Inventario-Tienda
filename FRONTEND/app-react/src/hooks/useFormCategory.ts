@@ -1,26 +1,22 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 // import { urlEliminarC, urlGuardarC, urlListaC, urlListaP } from "../endpoints";
-import { Categories, PropsFormCategory } from "../interfaces/types";
+import { Categories, eventsForm, PropsFormCategory } from "../interfaces/types";
 
 const INITIAL_STATE_LIST_NEW_CATEGORIES: Categories = {
   id: "",
   nombre: "",
   descripcion: "",
-  createdAt: "",
+  fecha_Creacion: "",
 };
-interface eventsForm {
-  change:
-    | React.ChangeEvent<HTMLInputElement>
-    | React.ChangeEvent<HTMLTextAreaElement>;
-  submit: React.FormEvent<HTMLFormElement>;
-}
 
 export const useFormCategory = (props: PropsFormCategory) => {
   const { methodsFormCategorie } = props;
   const { addNewCategorie } = methodsFormCategorie;
+
   const [newCategorie, seNewCategorie] = useState<Categories>(
     INITIAL_STATE_LIST_NEW_CATEGORIES
   );
+  const nameCategorie = useRef<HTMLInputElement>(null);
 
   const handleChange = (e: eventsForm["change"]) => {
     seNewCategorie({
@@ -37,9 +33,10 @@ export const useFormCategory = (props: PropsFormCategory) => {
     }
 
     newCategorie.id = String(new Date().getMilliseconds());
-    newCategorie.createdAt = new Date().toLocaleDateString();
+    newCategorie.fecha_Creacion = new Date().toLocaleDateString();
     addNewCategorie(newCategorie);
 
+    nameCategorie.current?.focus();
     handleReset();
   };
 
@@ -47,5 +44,5 @@ export const useFormCategory = (props: PropsFormCategory) => {
     seNewCategorie(INITIAL_STATE_LIST_NEW_CATEGORIES);
   };
 
-  return { handleChange, handleAdd, newCategorie };
+  return { handleChange, handleAdd, newCategorie, nameCategorie };
 };

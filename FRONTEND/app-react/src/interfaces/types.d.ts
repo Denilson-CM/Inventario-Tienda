@@ -2,7 +2,7 @@ export interface Categories {
   id?: string;
   nombre: string;
   descripcion: string;
-  createdAt?: string;
+  fecha_Creacion?: string;
 }
 export interface Product {
   idProducto: number;
@@ -13,7 +13,7 @@ export interface Product {
 }
 
 export interface RequestInit {
-  body?: string;
+  body?: any;
   headers?: HeadersInit;
   method?: string;
   signal?: AbortSignal;
@@ -25,6 +25,9 @@ export interface PropsFormCategory {
   };
 }
 
-export interface PropsInputForm {
-  valuesInputForm: {};
+interface eventsForm {
+  change:
+    | React.ChangeEvent<HTMLInputElement>
+    | React.ChangeEvent<HTMLTextAreaElement>;
+  submit: React.FormEvent<HTMLFormElement>;
 }

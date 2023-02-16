@@ -1,18 +1,26 @@
-interface Props {}
-export const InputForm = (props: any) => {
+import { eventsForm } from "../../interfaces/types";
+
+interface Props {
+  id: string;
+  value?: string;
+  name: string;
+  handleChange?: (e: eventsForm["change"]) => void;
+  titleInput: string;
+}
+export const InputForm = (props: Props) => {
   const { id, value, name, handleChange, titleInput } = props;
   return (
-    <div className="form-floating mb-3">
+    <div className="form-floating">
       <input
         type="text"
         id={id}
-        className="form-control"
+        className="form-control h-100"
         name={name}
-        value={value}
         onChange={handleChange}
+        value={value}
         placeholder="Escribe aqui la nueva categoria"
       />
-      <label htmlFor="nombre-categoria">{titleInput}</label>
+      <label htmlFor={id}>{titleInput}</label>
     </div>
   );
 };
