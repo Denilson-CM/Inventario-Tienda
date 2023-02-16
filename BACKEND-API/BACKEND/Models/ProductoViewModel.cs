@@ -2,8 +2,8 @@
 {
     public class ProductoViewModel
     {
-        public string Nombre { get; set; }
-        public string Codigo { get; set; }
+        public string NombreProducto { get; set; }
+        public string CodigoProducto { get; set; }
         public decimal? precio_compra { get; set; }
         public decimal? precio_venta { get; set; }
         public Guid CategoriaId { get; set; }
@@ -19,8 +19,10 @@
         public List<ProductoViewModel> RegistoProducto { get; set; }
     }
 
-    public class EditProductoViewModel : ProductoViewModel
+    public class ListViewModel : ProductoViewModel
     {
         public Guid Id { get; set; }
+        public string? Fecha_Creacion { get; set; }
+        public string? NombreCategoria { get; set; }
     }
 }
