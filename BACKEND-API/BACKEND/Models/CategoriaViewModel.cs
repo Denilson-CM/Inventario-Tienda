@@ -16,8 +16,9 @@
         public List<CategoriaViewModel> RegistroCategoria { get; set; }
     }
 
-    public class EditCategoriaViewModel : CategoriaViewModel
+    public class ListCategoriaViewModel : CategoriaViewModel
     {
         public Guid Id { get; set; }
-    }
+        public string? Fecha_Creacion { get; set; }
+    } 
 }
