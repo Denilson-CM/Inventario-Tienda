@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace BACKEND.Controllers
@@ -24,19 +25,29 @@ namespace BACKEND.Controllers
         [Route("Lista")]
         public async Task<IActionResult> Lista()
         {
-            var lista = _dbcontext.Productos
-                .Where(x => x.CategoriaId == x.Categoria.Id)
-                .Select(x => new
-                {
-                    idProducto = x.Id,
-                    nombre = x.Nombre,
-                    codigo = x.Codigo,
-                    idCategoria = x.CategoriaId,
-                    nombreCategoria = x.Categoria.Nombre,
-                    fecha_Creacion = x.Fecha_Creacion.Value.ToShortDateString()
-                }).OrderByDescending(x => x.nombre).ToList();
+            var results = _dbcontext.Productos
+                .Where(s => s.IsActive ?? true)
+                .OrderByDescending(s => s.Fecha_Creacion)
+                .ToList();
 
-            return StatusCode(StatusCodes.Status200OK, lista);
+            var list = new List<ListViewModel>();
+
+            foreach (var item in results)
+            {
+                var model = new ListViewModel
+                {
+                    Id = item.Id,
+                    NombreProducto = item.Nombre,
+                    CodigoProducto = item.Codigo,
+                    CategoriaId = item.CategoriaId,
+                    NombreCategoria = _dbcontext.Productos.Where(x => x.CategoriaId == x.Categoria.Id).Select(x => x.Nombre).FirstOrDefault().ToString(),
+                    Fecha_Creacion = item.Fecha_Creacion.Value.ToString("dd/MM/yyyy")
+                };
+
+                list.Add(model);
+            }
+
+            return StatusCode(StatusCodes.Status200OK, list);
         }
 
         [HttpPost]
@@ -55,7 +66,7 @@ namespace BACKEND.Controllers
                         foreach (var item in model.RegistoProducto)
                         {
                             var existe = _dbcontext.Productos
-                            .Where(x => x.Nombre.ToUpper().Trim() == item.Nombre.ToUpper().Trim() || x.Codigo.ToUpper().Trim() == item.Codigo.ToUpper().Trim())
+                            .Where(x => x.Nombre.ToUpper().Trim() == item.NombreProducto.ToUpper().Trim() || x.Codigo.ToUpper().Trim() == item.CodigoProducto.ToUpper().Trim())
                             .FirstOrDefault();
 
                             if (existe == null)
@@ -63,8 +74,8 @@ namespace BACKEND.Controllers
                                 var result = new Producto()
                                 {
                                     Id = Guid.NewGuid(),
-                                    Nombre = item.Nombre,
-                                    Codigo = item.Codigo,
+                                    Nombre = item.NombreProducto,
+                                    Codigo = item.CodigoProducto,
                                     precio_compra = item.precio_compra,
                                     precio_venta = item.precio_venta,
                                     CategoriaId = item.CategoriaId
@@ -97,7 +108,7 @@ namespace BACKEND.Controllers
 
         [HttpPost]
         [Route("Editar")]
-        public async Task<IActionResult> Editar([FromBody] EditProductoViewModel model)
+        public async Task<IActionResult> Editar([FromBody] ListViewModel model)
         {
             using (var transaction = _dbcontext.Database.BeginTransaction())
             {
@@ -105,7 +116,7 @@ namespace BACKEND.Controllers
                 {
                     var repetido = _dbcontext.Productos
                     .Where(x => x.Id != model.Id)
-                    .Where(x => x.Nombre.ToLower().Trim() == model.Nombre.ToLower().Trim() || x.Codigo.ToUpper().Trim() == model.Codigo.ToUpper().Trim())
+                    .Where(x => x.Nombre.ToLower().Trim() == model.NombreProducto.ToLower().Trim() || x.Codigo.ToUpper().Trim() == model.CodigoProducto.ToUpper().Trim())
                     .FirstOrDefault();
 
                     if (repetido != null)
@@ -117,8 +128,8 @@ namespace BACKEND.Controllers
 
                     if (objProducto != null)
                     {
-                        objProducto.Nombre = model.Nombre;
-                        objProducto.Codigo = model.Codigo;
+                        objProducto.Nombre = model.NombreProducto;
+                        objProducto.Codigo = model.CodigoProducto;
                         objProducto.precio_compra = model.precio_compra;
                         objProducto.precio_venta = model.precio_venta;
                         objProducto.CategoriaId = model.CategoriaId;
