@@ -20,16 +20,27 @@ namespace BACKEND.Controllers
         [Route("Lista")]
         public async Task<IActionResult> Lista()
         {
-            var lista = _dbcontext.Categorias
-                .Select(x => new
-                {
-                    idCategoria = x.Id,
-                    nombre = x.Nombre,
-                    descripcion = x.Descripcion,
-                    fecha_Creacion = x.Fecha_Creacion.Value.ToShortDateString()
-                }).OrderByDescending(x => x.fecha_Creacion).ToList();
+            var results = _dbcontext.Categorias
+                .Where(s => s.IsActive ?? true)
+                .OrderByDescending(s => s.Fecha_Creacion)
+                .ToList();
 
-            return StatusCode(StatusCodes.Status200OK, lista);
+            var list = new List<ListCategoriaViewModel>();
+
+            foreach (var item in results)
+            {
+                var model = new ListCategoriaViewModel
+                {
+                    Id = item.Id,
+                    Nombre = item.Nombre,
+                    Descripcion = item.Descripcion,
+                    Fecha_Creacion = item.Fecha_Creacion.Value.ToString("dd/MM/yyyy")
+                };
+
+                list.Add(model);
+            }
+
+            return StatusCode(StatusCodes.Status200OK, list);
         }
 
         [HttpPost]
