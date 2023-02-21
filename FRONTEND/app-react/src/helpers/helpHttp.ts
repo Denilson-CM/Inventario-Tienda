@@ -10,6 +10,7 @@ export const helpHttp = () => {
     //? crear un abortControler para cancelar la peticion en un  determinado tiempo
     let controller = new AbortController();
     options.signal = controller.signal;
+
     //? asiganr el metodo GET por defecto en caso de que la peticion no venga con metodo
     options.method = options?.method || "GET";
 
@@ -20,12 +21,12 @@ export const helpHttp = () => {
 
     //? convertir el cuerpo de la peticion a json y en caso de no venir cuerpo, eliminar la propiedad body
     options.body = JSON.stringify(options.body);
-    // if (!options.body) delete options.body;
+    if (!options.body) delete options.body;
 
     //? abortar la peticion pasado 3 segundos
     setTimeout(() => {
       controller.abort();
-    }, 3000);
+    }, 4000);
 
     //? realizar la peticion
     let res = await fetch(endPoint, options);

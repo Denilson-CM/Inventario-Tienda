@@ -1,8 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { urlListaC, urlGuardarC } from "../endpoints";
 import { helpHttp } from "../helpers/helpHttp";
 import { Categories, eventsForm } from "../interfaces/types";
 
+const INITIAL_CATEGORIE_SELECTED: Categories = {
+  id: "",
+  nombre: "",
+  descripcion: "",
+};
 export const useCategories = () => {
   const [listApiCategories, setListApiCategories] = useState<Array<Categories>>(
     []
@@ -11,24 +16,83 @@ export const useCategories = () => {
     []
   );
   const [filterCategorie, setFilterCategorie] = useState("");
+
+  const [categorieSelected, setcategorieSelected] = useState<Categories>(
+    INITIAL_CATEGORIE_SELECTED
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Object | null>({});
 
+  let urlGet = urlListaC;
+
   useEffect(() => {
     getCategoriesFromApi();
-  }, []);
+  }, [urlGet]);
 
   const getCategoriesFromApi = async () => {
     setLoading(true);
-    let resApi = await helpHttp().get(urlListaC);
-    if (!resApi.err) {
+    try {
+      let resApi = await helpHttp().get(urlListaC);
+
       setListApiCategories(resApi);
       setError(null);
-    } else {
+    } catch (error: any) {
       setListApiCategories([]);
       setError(error);
+      setLoading(false);
     }
     setLoading(false);
+  };
+
+  const addNewCategorie = (newCategorie: Categories) => {
+    console.log(newCategorie);
+    setListNewCategories([...listNewCategories, newCategorie]);
+  };
+
+  const selectCategorie = (categorieSelect: Categories) => {
+    setcategorieSelected(categorieSelect);
+  };
+
+  //?Métodos HTTP
+  const postCategorie = async () => {
+    const listCategorie = listNewCategories.map((categorie) => {
+      let newObject: Categories = {
+        nombre: "",
+        descripcion: "",
+      };
+      newObject.nombre = categorie.nombre;
+      newObject.descripcion = categorie.descripcion;
+      return newObject;
+    });
+    let listPostCategories = {
+      registroCategoria: listCategorie,
+    };
+
+    let options = {
+      body: listPostCategories,
+      headers: { "content-type": "application/json" },
+    };
+
+    let res = await helpHttp().post(urlGuardarC, options);
+    console.log(res);
+    if (!res.err) {
+      if (res.success) {
+        setError(res.success);
+      }
+      setListApiCategories([...listApiCategories, res]);
+    } else {
+      setError(res);
+    }
+  };
+  const updateCategorie = () => {
+    console.log(categorieSelected);
+  };
+  const deleteCategorie = () => {
+    console.log(categorieSelected);
+    let listNewCategories = listApiCategories.filter(
+      (categorie) => categorie.id !== categorieSelected.id
+    );
+    setListApiCategories(listNewCategories);
   };
 
   const setFilterStateCategorie = (e: eventsForm["change"]) => {
@@ -42,43 +106,18 @@ export const useCategories = () => {
           .toLocaleLowerCase()
           .includes(filterCategorie.toLocaleLowerCase())
       );
-
-  const addNewCategorie = (newCategorie: Categories) => {
-    setListNewCategories([...listNewCategories, newCategorie]);
-  };
-
-  const postCategorie = async () => {
-    const listPostCategorie = listNewCategories.map((categorie) => {
-      let newObject: Categories = {
-        nombre: "",
-        descripcion: "",
-      };
-      newObject.nombre = categorie.nombre;
-      newObject.descripcion = categorie.descripcion;
-      return newObject;
-    });
-
-    let options = {
-      body: listPostCategorie,
-      headers: { "content-type": "application/json" },
-    };
-
-    let res = await helpHttp().post(urlGuardarC, options);
-    if (!res.err) {
-      setListApiCategories([...listApiCategories, res]);
-    } else {
-      setError(res);
-    }
-  };
-
   return {
     listCategories,
     loading,
     error,
     addNewCategorie,
+    selectCategorie,
     postCategorie,
+    updateCategorie,
+    deleteCategorie,
     listNewCategories,
     setFilterStateCategorie,
+    categorieSelected,
     filterCategorie,
   };
 };

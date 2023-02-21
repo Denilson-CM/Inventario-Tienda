@@ -14,8 +14,12 @@ export const NewCategoryPage = () => {
     listNewCategories,
     addNewCategorie,
     postCategorie,
+    updateCategorie,
+    deleteCategorie,
     setFilterStateCategorie,
     filterCategorie,
+    selectCategorie,
+    categorieSelected,
   } = useCategories();
 
   const methodsFormCategorie = {
@@ -38,7 +42,12 @@ export const NewCategoryPage = () => {
               value={filterCategorie}
               handleChange={setFilterStateCategorie}
             />
-            <BtnShowModal titleBtnModal="Agregar Categorias" />
+            <BtnShowModal
+              titleBtnModal="Agregar Categorias"
+              idTargetModal="modal-add-categories"
+              bgColor="bg-primary"
+              colorText="white"
+            />
           </article>
         </section>
         <article className="row ">
@@ -57,15 +66,19 @@ export const NewCategoryPage = () => {
                       <td>{categorie?.fecha_Creacion}</td>
                       <td>
                         <div>
-                          <button
-                            type="button"
-                            className="btn btn-warning me-3"
-                          >
-                            Actualizar
-                          </button>
-                          <button type="button" className="btn btn-danger">
-                            Eliminar
-                          </button>
+                          <BtnShowModal
+                            titleBtnModal="Actualizar"
+                            idTargetModal="modal-update-item-categorie"
+                            bgColor="yellow"
+                            event={() => selectCategorie(categorie)}
+                          />
+                          <BtnShowModal
+                            titleBtnModal="Eliminar"
+                            idTargetModal="modal-delete-item-categorie"
+                            bgColor="red"
+                            colorText="white"
+                            event={() => selectCategorie(categorie)}
+                          />
                         </div>
                       </td>
                     </tr>
@@ -84,10 +97,13 @@ export const NewCategoryPage = () => {
             )}
           </section>
         </article>
+        {/* //? modal AGREGAR CATEGORIAS */}
         <ModalInfo
-          titleModal="Agregar Categorias"
-          titleButtonSave="Guardar"
+          titleModal="Agregar Categoria"
+          titleButtonSave="Enviar"
+          titleButtonClose="Cerrar"
           eventSave={postCategorie}
+          id="modal-add-categories"
         >
           <section>
             <FormProductCategory methodsFormCategorie={methodsFormCategorie} />
@@ -123,6 +139,34 @@ export const NewCategoryPage = () => {
               )}
             </TableCategories>
           </section>
+        </ModalInfo>
+
+        {/* //? modal EDITAR CATEGORIAS */}
+        <ModalInfo
+          titleButtonSave="Editar"
+          titleButtonClose="Cérrar"
+          titleModal="Editar Categorias"
+          id="modal-update-item-categorie"
+          eventSave={() => updateCategorie()}
+        >
+          <form>
+            <InputForm
+              id="nombre"
+              titleInput="Actualizar nombre"
+              name="nombre"
+            />
+          </form>
+        </ModalInfo>
+
+        {/* //? modal ELIMINAR CATEGORIAS */}
+        <ModalInfo
+          titleButtonSave="Si"
+          titleButtonClose="No"
+          titleModal="Eliminar Categoria"
+          id="modal-delete-item-categorie"
+          eventSave={() => deleteCategorie()}
+        >
+          <p>Estas seguro de eliminar {categorieSelected.nombre}?</p>
         </ModalInfo>
       </section>
     </section>
