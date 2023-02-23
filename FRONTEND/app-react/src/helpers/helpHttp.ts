@@ -26,7 +26,7 @@ export const helpHttp = () => {
     //? abortar la peticion pasado 3 segundos
     setTimeout(() => {
       controller.abort();
-    }, 4000);
+    }, 7000);
 
     //? realizar la peticion
     let res = await fetch(endPoint, options);
