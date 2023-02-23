@@ -18,7 +18,7 @@ namespace BACKEND.Controllers
 
         [HttpGet]
         [Route("Lista")]
-        public async Task<IActionResult> Lista()
+        public IActionResult Lista()
         {
             var results = _dbcontext.Categorias
                 .Where(s => s.IsActive ?? true)
@@ -93,6 +93,52 @@ namespace BACKEND.Controllers
                 }
             }
             return StatusCode(StatusCodes.Status500InternalServerError, "Modelo Invalido");
+        }
+
+        [HttpPut]
+        [Route("Editar")]
+        public async Task<IActionResult> Editar([FromBody] EditCategoriaViewModel model)
+        {
+            using (var transaction = _dbcontext.Database.BeginTransaction())
+            {
+                try
+                {
+                    var repetido = _dbcontext.Categorias
+                    .Where(x => x.Id != model.Id)
+                    .Where(x => x.Nombre.ToLower().Trim() == model.Nombre.ToLower().Trim())
+                    .FirstOrDefault();
+
+                    if (repetido != null)
+                    {
+                        return StatusCode(StatusCodes.Status400BadRequest, "Ya existe una categoria con el mismo Nombre");
+                    }
+
+                    var objCategoria = _dbcontext.Categorias.Where(s => s.Id == model.Id).FirstOrDefault();
+
+                    if (objCategoria != null)
+                    {
+                        objCategoria.Nombre = model.Nombre;
+                        objCategoria.Descripcion = model.Descripcion;
+
+                        _dbcontext.Categorias.Attach(objCategoria);
+                        await _dbcontext.SaveChangesAsync();
+
+                        transaction.Commit();
+
+                        return StatusCode(StatusCodes.Status200OK, "Categoria Actualizada");
+
+                    }
+                    else
+                    {
+                        return StatusCode(StatusCodes.Status400BadRequest, "La Categoria no existe");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrio un error al Editar");
+                }
+            }
         }
 
         [HttpDelete]

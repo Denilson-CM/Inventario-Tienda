@@ -19,10 +19,15 @@
         public List<ProductoViewModel> RegistoProducto { get; set; }
     }
 
-    public class ListViewModel : ProductoViewModel
+    public class ListProductoViewModel : ProductoViewModel
     {
         public Guid Id { get; set; }
         public string? Fecha_Creacion { get; set; }
         public string? NombreCategoria { get; set; }
+    }
+
+    public class EditProductoViewModel : ProductoViewModel
+    {
+        public Guid Id { get; set; }
     }
 }

@@ -20,5 +20,10 @@
     {
         public Guid Id { get; set; }
         public string? Fecha_Creacion { get; set; }
-    } 
+    }
+
+    public class EditCategoriaViewModel : CategoriaViewModel
+    {
+        public Guid Id { get; set; }
+    }
 }

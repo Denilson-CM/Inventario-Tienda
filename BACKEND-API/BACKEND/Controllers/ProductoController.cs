@@ -21,6 +21,12 @@ namespace BACKEND.Controllers
             _dbcontext = context;
         }
 
+        private string GetNombreCategoria(Guid id)
+        {
+           var NombreCategoria = _dbcontext.Categorias.Where(x => x.Id == id).Select(x => x.Nombre).FirstOrDefault().ToString();
+           return NombreCategoria;
+        }
+
         [HttpGet]
         [Route("Lista")]
         public async Task<IActionResult> Lista()
@@ -30,18 +36,20 @@ namespace BACKEND.Controllers
                 .OrderByDescending(s => s.Fecha_Creacion)
                 .ToList();
 
-            var list = new List<ListViewModel>();
+            var list = new List<ListProductoViewModel>();
 
             foreach (var item in results)
             {
-                var model = new ListViewModel
+                var model = new ListProductoViewModel
                 {
                     Id = item.Id,
                     NombreProducto = item.Nombre,
                     CodigoProducto = item.Codigo,
                     CategoriaId = item.CategoriaId,
-                    NombreCategoria = _dbcontext.Productos.Where(x => x.CategoriaId == x.Categoria.Id).Select(x => x.Nombre).FirstOrDefault().ToString(),
-                    Fecha_Creacion = item.Fecha_Creacion.Value.ToString("dd/MM/yyyy")
+                    NombreCategoria = await Task.Run(() => GetNombreCategoria(item.CategoriaId)),
+                    Fecha_Creacion = item.Fecha_Creacion.Value.ToString("dd/MM/yyyy"),
+                    precio_compra = item.precio_compra,
+                    precio_venta = item.precio_venta
                 };
 
                 list.Add(model);
@@ -108,7 +116,7 @@ namespace BACKEND.Controllers
 
         [HttpPut]
         [Route("Editar")]
-        public async Task<IActionResult> Editar([FromBody] ListViewModel model)
+        public async Task<IActionResult> Editar([FromBody] EditProductoViewModel model)
         {
             using (var transaction = _dbcontext.Database.BeginTransaction())
             {
@@ -144,7 +152,7 @@ namespace BACKEND.Controllers
                     }
                     else
                     {
-                        return StatusCode(StatusCodes.Status400BadRequest, "eL Producto no existe");
+                        return StatusCode(StatusCodes.Status400BadRequest, "El Producto no existe");
                     }
                 }
                 catch (Exception ex)
