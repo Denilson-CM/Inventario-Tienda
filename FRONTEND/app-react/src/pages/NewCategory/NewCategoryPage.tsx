@@ -4,7 +4,7 @@ import { InputForm } from "../../components/InputForm/InputForm";
 import { Loader } from "../../components/Loader/Loader";
 
 import { ModalInfo } from "../../components/ModalInfo/ModalInfo";
-import { TableCategories } from "../../components/TableCategories/TableCategories";
+import { TableInfo } from "../../components/TableCategories/TableInfo";
 import { useCategories } from "../../hooks/useCategories";
 
 export const NewCategoryPage = () => {
@@ -26,14 +26,13 @@ export const NewCategoryPage = () => {
     addNewCategorie,
   };
 
-  // const valuesInputForm = {};
   return (
-    <section className="container">
+    <section className="container min-vh-100">
       <section className="row bg-success">
         <article className="col-12">aqui va a ir algo</article>
       </section>
       <section className="container">
-        <section className="row  border">
+        <section className="row">
           <article className="col-12 p-0 my-4 d-flex justify-content-md-between">
             <InputForm
               id="filter-categories"
@@ -50,13 +49,18 @@ export const NewCategoryPage = () => {
             />
           </article>
         </section>
-        <article className="row ">
-          <section className="col-12 d-flex justify-content-center align-items-center border ">
+        <article className="row min-vh-100">
+          <section className="col-12 d-flex justify-content-center align-items-start  ">
             {loading ? (
               <Loader />
             ) : (
-              <TableCategories
-                headersTable={["Nombre", "Descripción", "Fecha de creación"]}
+              <TableInfo
+                headersTable={[
+                  "Nombre",
+                  "Comentarios",
+                  "Fecha de creación",
+                  "Opciones",
+                ]}
               >
                 {listCategories.length > 0 ? (
                   listCategories.map((categorie, index) => (
@@ -65,21 +69,20 @@ export const NewCategoryPage = () => {
                       <td>{categorie?.descripcion}</td>
                       <td>{categorie?.fecha_Creacion}</td>
                       <td>
-                        <div>
-                          <BtnShowModal
-                            titleBtnModal="Actualizar"
-                            idTargetModal="modal-update-item-categorie"
-                            bgColor="yellow"
-                            event={() => selectCategorie(categorie)}
-                          />
-                          <BtnShowModal
-                            titleBtnModal="Eliminar"
-                            idTargetModal="modal-delete-item-categorie"
-                            bgColor="red"
-                            colorText="white"
-                            event={() => selectCategorie(categorie)}
-                          />
-                        </div>
+                        <BtnShowModal
+                          titleBtnModal="Actualizar"
+                          idTargetModal="modal-update-item-categorie"
+                          bgColor="yellow"
+                          className="me-3"
+                          event={() => selectCategorie(categorie)}
+                        />
+                        <BtnShowModal
+                          titleBtnModal="Eliminar"
+                          idTargetModal="modal-delete-item-categorie"
+                          bgColor="red"
+                          colorText="white"
+                          event={() => selectCategorie(categorie)}
+                        />
                       </td>
                     </tr>
                   ))
@@ -93,7 +96,7 @@ export const NewCategoryPage = () => {
                     </td>
                   </tr>
                 )}
-              </TableCategories>
+              </TableInfo>
             )}
           </section>
         </article>
@@ -107,24 +110,12 @@ export const NewCategoryPage = () => {
         >
           <section>
             <FormProductCategory methodsFormCategorie={methodsFormCategorie} />
-            <TableCategories
-              headersTable={["Nombre", "Descripción", "Opciones"]}
-            >
+            <TableInfo headersTable={["Nombre", "Descripción"]}>
               {listNewCategories.length > 0 ? (
                 listNewCategories.map((categorie) => (
                   <tr key={categorie?.id}>
                     <td>{categorie?.nombre}</td>
                     <td>{categorie?.descripcion}</td>
-                    <td>
-                      <div>
-                        <button type="button" className="btn btn-warning me-3">
-                          Actualizar
-                        </button>
-                        <button type="button" className="btn btn-danger">
-                          Eliminar
-                        </button>
-                      </div>
-                    </td>
                   </tr>
                 ))
               ) : (
@@ -137,7 +128,7 @@ export const NewCategoryPage = () => {
                   </td>
                 </tr>
               )}
-            </TableCategories>
+            </TableInfo>
           </section>
         </ModalInfo>
 

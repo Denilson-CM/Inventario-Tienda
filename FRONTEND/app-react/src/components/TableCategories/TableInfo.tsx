@@ -2,7 +2,7 @@ interface Props {
   headersTable: Array<string>;
   children: JSX.Element | JSX.Element[];
 }
-export const TableCategories = (props: Props) => {
+export const TableInfo = (props: Props) => {
   const { headersTable, children } = props;
 
   return (

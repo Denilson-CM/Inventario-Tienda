@@ -1,7 +1,10 @@
-import { useEffect, useState } from "react";
-import { urlListaC, urlGuardarC } from "../endpoints";
-import { helpHttp } from "../helpers/helpHttp";
+import { useEffect, useMemo, useState } from "react";
 import { Categories, eventsForm } from "../interfaces/types";
+import {
+  delFromCategories,
+  getFromCategories,
+  postFromCategories,
+} from "../services/categories_services";
 
 const INITIAL_CATEGORIE_SELECTED: Categories = {
   id: "",
@@ -12,9 +15,11 @@ export const useCategories = () => {
   const [listApiCategories, setListApiCategories] = useState<Array<Categories>>(
     []
   );
+
   const [listNewCategories, setListNewCategories] = useState<Array<Categories>>(
     []
   );
+
   const [filterCategorie, setFilterCategorie] = useState("");
 
   const [categorieSelected, setcategorieSelected] = useState<Categories>(
@@ -23,17 +28,24 @@ export const useCategories = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Object | null>({});
 
-  let urlGet = urlListaC;
-
   useEffect(() => {
     getCategoriesFromApi();
-  }, [urlGet]);
+  }, []);
 
+  const addNewCategorie = (newCategorie: Categories) => {
+    setListNewCategories([...listNewCategories, newCategorie]);
+  };
+
+  const selectCategorie = (categorieSelect: Categories) => {
+    setcategorieSelected(categorieSelect);
+  };
+
+  //?Métodos HTTP
   const getCategoriesFromApi = async () => {
     setLoading(true);
-    try {
-      let resApi = await helpHttp().get(urlListaC);
 
+    try {
+      let resApi = await getFromCategories();
       setListApiCategories(resApi);
       setError(null);
     } catch (error: any) {
@@ -43,43 +55,14 @@ export const useCategories = () => {
     }
     setLoading(false);
   };
-
-  const addNewCategorie = (newCategorie: Categories) => {
-    console.log(newCategorie);
-    setListNewCategories([...listNewCategories, newCategorie]);
-  };
-
-  const selectCategorie = (categorieSelect: Categories) => {
-    setcategorieSelected(categorieSelect);
-  };
-
-  //?Métodos HTTP
   const postCategorie = async () => {
-    const listCategorie = listNewCategories.map((categorie) => {
-      let newObject: Categories = {
-        nombre: "",
-        descripcion: "",
-      };
-      newObject.nombre = categorie.nombre;
-      newObject.descripcion = categorie.descripcion;
-      return newObject;
-    });
-    let listPostCategories = {
-      registroCategoria: listCategorie,
-    };
-
-    let options = {
-      body: listPostCategories,
-      headers: { "content-type": "application/json" },
-    };
-
-    let res = await helpHttp().post(urlGuardarC, options);
-    console.log(res);
+    let res = await postFromCategories(listNewCategories);
     if (!res.err) {
       if (res.success) {
         setError(res.success);
       }
-      setListApiCategories([...listApiCategories, res]);
+      setListNewCategories([]);
+      getCategoriesFromApi();
     } else {
       setError(res);
     }
@@ -87,25 +70,37 @@ export const useCategories = () => {
   const updateCategorie = () => {
     console.log(categorieSelected);
   };
-  const deleteCategorie = () => {
-    console.log(categorieSelected);
-    let listNewCategories = listApiCategories.filter(
-      (categorie) => categorie.id !== categorieSelected.id
-    );
-    setListApiCategories(listNewCategories);
+  const deleteCategorie = async () => {
+    let idCategorie = categorieSelected.id;
+
+    let res = await delFromCategories(idCategorie);
+
+    if (!res.err) {
+      let listNewCategories = listApiCategories.filter(
+        (categorie) => categorie.id !== categorieSelected.id
+      );
+      setListApiCategories(listNewCategories);
+    } else {
+      return null;
+    }
   };
 
   const setFilterStateCategorie = (e: eventsForm["change"]) => {
     setFilterCategorie(e.target.value);
   };
 
-  let listCategories = !filterCategorie
-    ? listApiCategories
-    : listApiCategories.filter((categorie) =>
-        categorie.nombre
+  let listCategories = useMemo(() => {
+    if (listApiCategories.length > 0) {
+      return listApiCategories.filter((item) =>
+        item.nombre
           .toLocaleLowerCase()
           .includes(filterCategorie.toLocaleLowerCase())
       );
+    } else {
+      return listApiCategories;
+    }
+  }, [listApiCategories, filterCategorie]);
+
   return {
     listCategories,
     loading,

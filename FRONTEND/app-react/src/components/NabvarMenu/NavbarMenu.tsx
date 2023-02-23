@@ -2,7 +2,7 @@ import { NavLink } from "../NavLink/NavLink";
 import "./StyleNavbarMenu.css";
 export const NavbarMenu = () => {
   return (
-    <nav className="navbar navbar-expand-lg  d-flex align-items-md-start my-nabvar-menu">
+    <nav className="navbar navbar-expand-lg  d-flex align-items-md-start sticky-top my-nabvar-menu">
       <div className="container-fluid d-md-flex flex-md-column">
         <h2 className="mb-md-4 fs-1">System DK</h2>
         <button
@@ -25,16 +25,18 @@ export const NavbarMenu = () => {
 
             <ul className="nav-item dropdown p-0">
               <li
-                className="nav-link dropdown-toggle fs-5"
+                className="nav-link dropdown-toggle fs-5 border"
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
                 Añadir
               </li>
-              <ul className="dropdown-menu">
-                <NavLink to="/añadir-producto">Nuevo Producto</NavLink>
-                <NavLink to="/añadir-categoria">Nueva Categoria</NavLink>
+              <ul style={{ minWidth: "12rem" }} className="dropdown-menu">
+                <div className="d-flex flex-column align-items-center justify-content-center ">
+                  <NavLink to="/añadir-producto">Nuevo Producto</NavLink>
+                  <NavLink to="/añadir-categoria">Nueva Categoria</NavLink>
+                </div>
               </ul>
             </ul>
           </ul>
