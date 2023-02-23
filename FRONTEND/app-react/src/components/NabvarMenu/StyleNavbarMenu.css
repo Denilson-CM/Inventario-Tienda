@@ -1,5 +1,10 @@
+.my-nabvar-menu {
+  background-color: var(--bg-main);
+
+}
+
 @media screen and (min-width: 768px) {
-  .height-medium-devices {
+  .my-nabvar-menu {
     min-height: 100vh;
   }
 }

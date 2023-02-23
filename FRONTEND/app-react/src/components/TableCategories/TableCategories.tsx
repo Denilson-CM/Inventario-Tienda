@@ -1,12 +1,9 @@
-import { Categories } from "../../interfaces/types";
-
 interface Props {
   headersTable: Array<string>;
-  list: Array<Categories>;
-  error?: Object;
+  children: JSX.Element | JSX.Element[];
 }
 export const TableCategories = (props: Props) => {
-  const { headersTable, list, error } = props;
+  const { headersTable, children } = props;
 
   return (
     <table className="table table-striped">
@@ -19,26 +16,7 @@ export const TableCategories = (props: Props) => {
           ))}
         </tr>
       </thead>
-      <tbody>
-        {!error ? (
-          list.map((categorie) => (
-            <tr key={categorie?.id}>
-              <td>{categorie?.nombre}</td>
-              <td>{categorie?.descripcion}</td>
-              <td>{categorie?.createdAt?.slice(0, 10)}</td>
-            </tr>
-          ))
-        ) : (
-          <tr>
-            <td
-              colSpan={5}
-              className="bg-danger p-2 text-white bg-opacity-75 text-center"
-            >
-              <h2>Sin Datos</h2>
-            </td>
-          </tr>
-        )}
-      </tbody>
+      <tbody>{children}</tbody>
     </table>
   );
 };
