@@ -9,7 +9,7 @@ export const TableCategories = (props: Props) => {
   const { listCategories, selectCategorie } = props;
 
   return (
-    <table className="table table-striped">
+    <table className="table  table-hover">
       <thead>
         <tr>
           <th scope="col">Nombre</th>
@@ -26,6 +26,7 @@ export const TableCategories = (props: Props) => {
               <td>{categorie["nombre"]}</td>
               <td>{categorie?.descripcion}</td>
               <td>{categorie?.fecha_Creacion}</td>
+              <td></td>
               <td>
                 <BtnShowModal
                   titleBtnModal="Actualizar"

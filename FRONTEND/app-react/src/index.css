@@ -11,6 +11,8 @@
   --bg-buttons-delete: #D61C4E;
   --bg-buttons-update: #FEB139;
   --bg-buttons-ramdom: #FFF80A;
+
+  --text-color-main: #000000;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap');
@@ -22,4 +24,20 @@ body {
 
 .bg-pages {
   background-color: var(--bg-cuartiario);
+}
+
+thead {
+  background-color: var(--bg-secondary);
+  color: var(--text-color-main);
+}
+
+
+
+tr:nth-of-type(2n) {
+  background-color: var(--bg-contenido-tabla);
+}
+
+.table-hover tbody tr:hover {
+  background-color: var(--bg-terciario);
+
 }

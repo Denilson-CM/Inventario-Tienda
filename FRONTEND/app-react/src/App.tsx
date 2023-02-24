@@ -17,7 +17,7 @@ function App() {
           <section className="d-none d-md-block col-2 m-0 p-0">
             <NavbarMenu></NavbarMenu>
           </section>
-          <section className="col-12 col-md-10 bg-pages">
+          <section className="col-12 col-md-10 ">
             <Routes>
               <Route path="/" element={<ProductsPage />}></Route>
               <Route
