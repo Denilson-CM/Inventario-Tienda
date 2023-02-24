@@ -4,7 +4,9 @@ import { InputForm } from "../../components/InputForm/InputForm";
 import { Loader } from "../../components/Loader/Loader";
 
 import { ModalInfo } from "../../components/ModalInfo/ModalInfo";
-import { TableInfo } from "../../components/TableCategories/TableInfo";
+import { TableCategories } from "../../components/TableCategories/TableCategories";
+
+import { TableCategoriesLocal } from "../../components/TableCategoriesLocal/TableCategoriesLocal";
 import { useCategories } from "../../hooks/useCategories";
 
 export const NewCategoryPage = () => {
@@ -28,19 +30,14 @@ export const NewCategoryPage = () => {
 
   return (
     <section className="container min-vh-100">
-      <section className="row bg-success">
-        <article className="col-12">aqui va a ir algo</article>
+      <section className="row mt-3">
+        <article className="col-12 text-center">
+          <h2>Regitro de Categorias</h2>
+        </article>
       </section>
       <section className="container">
-        <section className="row">
-          <article className="col-12 p-0 my-4 d-flex justify-content-md-between">
-            <InputForm
-              id="filter-categories"
-              titleInput="Filtrar Categorias"
-              name="nombre"
-              value={filterCategorie}
-              handleChange={setFilterStateCategorie}
-            />
+        <section className="row ">
+          <article className="col-12 d-flex justify-content-end">
             <BtnShowModal
               titleBtnModal="Agregar Categorias"
               idTargetModal="modal-add-categories"
@@ -49,54 +46,26 @@ export const NewCategoryPage = () => {
             />
           </article>
         </section>
+        <section className="row">
+          <article className="col-12 p-0 my-4 d-flex justify-content-md-center">
+            <InputForm
+              id="filter-categories"
+              titleInput="Filtrar Categorias"
+              name="nombre"
+              value={filterCategorie}
+              handleChange={setFilterStateCategorie}
+            />
+          </article>
+        </section>
         <article className="row min-vh-100">
           <section className="col-12 d-flex justify-content-center align-items-start  ">
             {loading ? (
               <Loader />
             ) : (
-              <TableInfo
-                headersTable={[
-                  "Nombre",
-                  "Comentarios",
-                  "Fecha de creación",
-                  "Opciones",
-                ]}
-              >
-                {listCategories.length > 0 ? (
-                  listCategories.map((categorie, index) => (
-                    <tr key={categorie?.id}>
-                      <td>{categorie["nombre"]}</td>
-                      <td>{categorie?.descripcion}</td>
-                      <td>{categorie?.fecha_Creacion}</td>
-                      <td>
-                        <BtnShowModal
-                          titleBtnModal="Actualizar"
-                          idTargetModal="modal-update-item-categorie"
-                          bgColor="yellow"
-                          className="me-3"
-                          event={() => selectCategorie(categorie)}
-                        />
-                        <BtnShowModal
-                          titleBtnModal="Eliminar"
-                          idTargetModal="modal-delete-item-categorie"
-                          bgColor="red"
-                          colorText="white"
-                          event={() => selectCategorie(categorie)}
-                        />
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td
-                      colSpan={5}
-                      className="bg-danger p-2 text-white bg-opacity-75 text-center"
-                    >
-                      <h2>Sin Datos</h2>
-                    </td>
-                  </tr>
-                )}
-              </TableInfo>
+              <TableCategories
+                listCategories={listCategories}
+                selectCategorie={selectCategorie}
+              />
             )}
           </section>
         </article>
@@ -110,25 +79,7 @@ export const NewCategoryPage = () => {
         >
           <section>
             <FormProductCategory methodsFormCategorie={methodsFormCategorie} />
-            <TableInfo headersTable={["Nombre", "Descripción"]}>
-              {listNewCategories.length > 0 ? (
-                listNewCategories.map((categorie) => (
-                  <tr key={categorie?.id}>
-                    <td>{categorie?.nombre}</td>
-                    <td>{categorie?.descripcion}</td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td
-                    colSpan={5}
-                    className="bg-danger p-2 text-white bg-opacity-75 text-center"
-                  >
-                    <h2>Sin Datos</h2>
-                  </td>
-                </tr>
-              )}
-            </TableInfo>
+            <TableCategoriesLocal listNewCategories={listNewCategories} />
           </section>
         </ModalInfo>
 

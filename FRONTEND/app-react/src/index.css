@@ -1,6 +1,25 @@
 :root {
-  --bg-main: #F2DEBA;
-  --bg-secondary: #FFEFD6;
+  --bg-main: #82AAE3;
+  --bg-secondary: #91D8E4;
+  --bg-terciario: #BFEAF5;
+  --bg-cuartiario: #EAFDFC;
+  --bg-contenido-tabla: #DEFCF9;
 
-  --bg-buttons-delete: #ff0000;
+
+
+  --bg-buttons-add: #293462;
+  --bg-buttons-delete: #D61C4E;
+  --bg-buttons-update: #FEB139;
+  --bg-buttons-ramdom: #FFF80A;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap');
+
+html,
+body {
+  font-family: 'Kumbh Sans', sans-serif;
+}
+
+.bg-pages {
+  background-color: var(--bg-cuartiario);
 }
