@@ -29,19 +29,21 @@ export const TableCategories = (props: Props) => {
               <td></td>
               <td>
                 <BtnShowModal
-                  titleBtnModal="Actualizar"
                   idTargetModal="modal-update-item-categorie"
                   bgColor="yellow"
                   className="me-3"
                   event={() => selectCategorie(categorie)}
-                />
+                >
+                  Actualizar
+                </BtnShowModal>
                 <BtnShowModal
-                  titleBtnModal="Eliminar"
                   idTargetModal="modal-delete-item-categorie"
                   bgColor="red"
                   colorText="white"
                   event={() => selectCategorie(categorie)}
-                />
+                >
+                  Eliminar
+                </BtnShowModal>
               </td>
             </tr>
           ))

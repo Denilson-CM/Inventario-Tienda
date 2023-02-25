@@ -39,11 +39,12 @@ export const NewCategoryPage = () => {
         <section className="row ">
           <article className="col-12 d-flex justify-content-end">
             <BtnShowModal
-              titleBtnModal="Agregar Categorias"
               idTargetModal="modal-add-categories"
               bgColor="bg-primary"
               colorText="white"
-            />
+            >
+              Agregar Categorias
+            </BtnShowModal>
           </article>
         </section>
         <section className="row">
