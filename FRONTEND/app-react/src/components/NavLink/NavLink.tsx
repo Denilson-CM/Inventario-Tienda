@@ -1,7 +1,7 @@
 import { NavLink as ItemLink } from "react-router-dom";
 import "./NavLinkStyle.css";
 interface Props {
-  children: string;
+  children: JSX.Element | string;
   to: string;
 }
 export const NavLink = ({ to, children, ...props }: Props) => {

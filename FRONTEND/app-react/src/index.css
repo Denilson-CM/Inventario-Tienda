@@ -41,3 +41,17 @@ tr:nth-of-type(2n) {
   background-color: var(--bg-terciario);
 
 }
+
+.container-icon-text-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.container-icon-text-button__icon-button {
+  width: 1em;
+  height: 1em;
+  margin: 0 .5rem 0 0;
+}
