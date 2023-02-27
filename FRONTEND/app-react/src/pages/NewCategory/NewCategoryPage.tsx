@@ -1,7 +1,8 @@
 import { BtnShowModal } from "../../components/BtnShowModal/BtnShowModal";
-import { FormProductCategory } from "../../components/FormProductCategory/FormProductCategory";
+import { FormCategory } from "../../components/FormCategory/FormProductCategory";
 import { InputForm } from "../../components/InputForm/InputForm";
 import { Loader } from "../../components/Loader/Loader";
+import { ModalFooter } from "../../components/ModalFooter/ModalFooter";
 
 import { ModalInfo } from "../../components/ModalInfo/ModalInfo";
 import { TableCategories } from "../../components/TableCategories/TableCategories";
@@ -26,6 +27,7 @@ export const NewCategoryPage = () => {
 
   const methodsFormCategorie = {
     addNewCategorie,
+    updateCategorie,
   };
 
   return (
@@ -39,11 +41,19 @@ export const NewCategoryPage = () => {
         <section className="row ">
           <article className="col-12 d-flex justify-content-end">
             <BtnShowModal
-              titleBtnModal="Agregar Categorias"
               idTargetModal="modal-add-categories"
               bgColor="bg-primary"
               colorText="white"
-            />
+            >
+              <div className="container-icon-text-button">
+                <img
+                  src="./assets/icons/icon-agregar.svg"
+                  alt="icono-productos"
+                  className="container-icon-text-button__icon-button"
+                />{" "}
+                Agregar
+              </div>
+            </BtnShowModal>
           </article>
         </section>
         <section className="row">
@@ -70,45 +80,44 @@ export const NewCategoryPage = () => {
           </section>
         </article>
         {/* //? modal AGREGAR CATEGORIAS */}
-        <ModalInfo
-          titleModal="Agregar Categoria"
-          titleButtonSave="Enviar"
-          titleButtonClose="Cerrar"
-          eventSave={postCategorie}
-          id="modal-add-categories"
-        >
+        <ModalInfo titleModal="Agregar Categoria" id="modal-add-categories">
           <section>
-            <FormProductCategory methodsFormCategorie={methodsFormCategorie} />
+            <FormCategory methodsFormCategorie={methodsFormCategorie} />
             <TableCategoriesLocal listNewCategories={listNewCategories} />
+
+            <ModalFooter
+              titleButtonSave="Enviar"
+              eventSave={postCategorie}
+              titleButtonClose="Cérrar"
+            />
           </section>
         </ModalInfo>
 
         {/* //? modal EDITAR CATEGORIAS */}
         <ModalInfo
-          titleButtonSave="Editar"
-          titleButtonClose="Cérrar"
           titleModal="Editar Categorias"
           id="modal-update-item-categorie"
-          eventSave={() => updateCategorie()}
+          // eventSave={() => updateCategorie()}
         >
-          <form>
-            <InputForm
-              id="nombre"
-              titleInput="Actualizar nombre"
-              name="nombre"
-            />
-          </form>
+          <section>
+            <FormCategory methodsFormCategorie={methodsFormCategorie} />
+          </section>
         </ModalInfo>
 
         {/* //? modal ELIMINAR CATEGORIAS */}
         <ModalInfo
-          titleButtonSave="Si"
-          titleButtonClose="No"
           titleModal="Eliminar Categoria"
           id="modal-delete-item-categorie"
-          eventSave={() => deleteCategorie()}
         >
-          <p>Estas seguro de eliminar {categorieSelected.nombre}?</p>
+          <section>
+            <p>Estas seguro de eliminar {categorieSelected.nombre}?</p>
+
+            <ModalFooter
+              titleButtonSave="Si"
+              eventSave={deleteCategorie}
+              titleButtonClose="No"
+            />
+          </section>
         </ModalInfo>
       </section>
     </section>

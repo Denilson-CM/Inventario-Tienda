@@ -1,7 +1,7 @@
 import { useFormCategory } from "../../hooks/useFormCategory";
 import { PropsFormCategory } from "../../interfaces/types";
 
-export const FormProductCategory = (props: PropsFormCategory) => {
+export const FormCategory = (props: PropsFormCategory) => {
   const { handleChange, handleAdd, newCategorie, nameCategorie } =
     useFormCategory(props);
 
@@ -33,7 +33,7 @@ export const FormProductCategory = (props: PropsFormCategory) => {
         ></textarea>
         <label htmlFor="descripcion-categoria">Descripción</label>
       </div>
-      <button type="submit" className="btn btn-info ">
+      <button type="submit" className="btn btn-info mb-3">
         Agregar
       </button>
     </form>

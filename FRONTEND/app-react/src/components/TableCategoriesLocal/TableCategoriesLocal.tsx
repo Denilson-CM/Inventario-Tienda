@@ -6,7 +6,7 @@ interface Props {
 export const TableCategoriesLocal = (props: Props) => {
   const { listNewCategories } = props;
   return (
-    <table className="table table-striped">
+    <table className="table">
       <thead>
         <tr>
           <th scope="col">Nombre</th>

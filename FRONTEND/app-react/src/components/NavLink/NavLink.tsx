@@ -1,18 +1,18 @@
 import { NavLink as ItemLink } from "react-router-dom";
 import "./NavLinkStyle.css";
 interface Props {
-  children: string;
+  children: JSX.Element | string;
   to: string;
 }
 export const NavLink = ({ to, children, ...props }: Props) => {
   return (
-    <li>
+    <li className=" w-100 mb-2">
       <ItemLink
         {...props}
         className={({ isActive }) => {
           return isActive
-            ? "is-active-item nav-link-item fs-5 "
-            : "nav-link-item fs-5";
+            ? "is-active-item nav-link-item fs-5"
+            : "nav-link-item fs-5 ";
         }}
         to={to}
       >

@@ -1,10 +1,19 @@
 .is-active-item {
   font-weight: bold;
-  color: #ff0000 !important;
+  background-color: var(--bg-cuartiario);
+  color: var(--bg-main);
 }
 
 .nav-link-item {
+  display: inline-block;
+  width: 100%;
+  padding: .5rem;
   color: #000;
+  font-weight: 600;
   text-decoration: none;
+}
+
+.nav-link-item:hover {
+  background-color: var(--bg-cuartiario);
 
 }

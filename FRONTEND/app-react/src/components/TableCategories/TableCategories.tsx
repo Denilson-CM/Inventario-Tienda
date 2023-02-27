@@ -9,7 +9,7 @@ export const TableCategories = (props: Props) => {
   const { listCategories, selectCategorie } = props;
 
   return (
-    <table className="table table-striped">
+    <table className="table  table-hover">
       <thead>
         <tr>
           <th scope="col">Nombre</th>
@@ -26,21 +26,38 @@ export const TableCategories = (props: Props) => {
               <td>{categorie["nombre"]}</td>
               <td>{categorie?.descripcion}</td>
               <td>{categorie?.fecha_Creacion}</td>
+              <td></td>
               <td>
                 <BtnShowModal
-                  titleBtnModal="Actualizar"
                   idTargetModal="modal-update-item-categorie"
                   bgColor="yellow"
                   className="me-3"
                   event={() => selectCategorie(categorie)}
-                />
+                >
+                  <div className="container-icon-text-button">
+                    <img
+                      src="./assets/icons/icon-actualizar.svg"
+                      alt="icono-productos"
+                      className="container-icon-text-button__icon-button"
+                    />{" "}
+                    Actualizar
+                  </div>
+                </BtnShowModal>
                 <BtnShowModal
-                  titleBtnModal="Eliminar"
                   idTargetModal="modal-delete-item-categorie"
                   bgColor="red"
                   colorText="white"
                   event={() => selectCategorie(categorie)}
-                />
+                >
+                  <div className="container-icon-text-button">
+                    <img
+                      src="./assets/icons/icon-eliminar.svg"
+                      alt="icono-productos"
+                      className="container-icon-text-button__icon-button"
+                    />{" "}
+                    Eliminar
+                  </div>
+                </BtnShowModal>
               </td>
             </tr>
           ))

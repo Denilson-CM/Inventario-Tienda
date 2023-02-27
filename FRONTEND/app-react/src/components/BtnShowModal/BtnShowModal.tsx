@@ -1,17 +1,17 @@
 interface Props {
-  titleBtnModal: string;
   idTargetModal: string;
   className?: string;
   bgColor: string;
   colorText?: string;
+  children: JSX.Element | string;
   event?: () => void;
 }
 export const BtnShowModal = (props: Props) => {
   const {
-    titleBtnModal,
     idTargetModal,
     bgColor,
     className,
+    children,
     colorText = "#000",
     event,
   } = props;
@@ -25,7 +25,7 @@ export const BtnShowModal = (props: Props) => {
       data-bs-target={`#${idTargetModal}`}
       onClick={event}
     >
-      {titleBtnModal}
+      {children}
     </button>
   );
 };

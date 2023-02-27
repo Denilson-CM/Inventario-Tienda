@@ -16,6 +16,7 @@ export const useFormCategory = (props: PropsFormCategory) => {
   const [newCategorie, seNewCategorie] = useState<Categories>(
     INITIAL_STATE_LIST_NEW_CATEGORIES
   );
+
   const nameCategorie = useRef<HTMLInputElement>(null);
 
   const handleChange = (e: eventsForm["change"]) => {
