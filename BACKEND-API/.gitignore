@@ -3,3 +3,9 @@
 /DATA/obj
 /BACKEND/bin/Debug/net6.0
 /DATA/bin/Debug/net6.0
+
+//Publicacion
+
+/BACKEND/bin/Release/net6.0
+/BACKEND/Properties/PublishProfiles
+/DATA/bin/Release/net6.0
