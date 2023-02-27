@@ -1,5 +1,8 @@
 using DATA;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,14 +15,15 @@ builder.Services.AddSwaggerGen();
 
 var proveedor = builder.Services.BuildServiceProvider();
 var configuration = proveedor.GetRequiredService<IConfiguration>();
-builder.Services.AddCors(opciones =>
+builder.Services.AddCors(options =>
 {
-    var frontendURL = configuration.GetValue<string>("frontend_url");
-
-    opciones.AddDefaultPolicy(builder =>
-    {
-        builder.WithOrigins(frontendURL).AllowAnyMethod().AllowAnyHeader();
-    });
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.AllowAnyOrigin();
+                          policy.AllowAnyHeader();
+                          policy.AllowAnyMethod();
+                      });
 });
 
 builder.Services.AddDbContext<IVContext>(options =>
@@ -29,15 +33,28 @@ builder.Services.AddDbContext<IVContext>(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseSwagger();
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
     app.UseSwaggerUI();
 }
+else
+{
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+        c.RoutePrefix = string.Empty;
+    });
+}
+
+app.UseRouting();
 
 app.UseAuthorization();
 
-app.UseCors();
+app.UseCors(MyAllowSpecificOrigins);
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 app.MapControllers();
 
