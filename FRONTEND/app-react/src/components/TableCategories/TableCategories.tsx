@@ -34,7 +34,14 @@ export const TableCategories = (props: Props) => {
                   className="me-3"
                   event={() => selectCategorie(categorie)}
                 >
-                  Actualizar
+                  <div className="container-icon-text-button">
+                    <img
+                      src="./assets/icons/icon-actualizar.svg"
+                      alt="icono-productos"
+                      className="container-icon-text-button__icon-button"
+                    />{" "}
+                    Actualizar
+                  </div>
                 </BtnShowModal>
                 <BtnShowModal
                   idTargetModal="modal-delete-item-categorie"
@@ -42,7 +49,14 @@ export const TableCategories = (props: Props) => {
                   colorText="white"
                   event={() => selectCategorie(categorie)}
                 >
-                  Eliminar
+                  <div className="container-icon-text-button">
+                    <img
+                      src="./assets/icons/icon-eliminar.svg"
+                      alt="icono-productos"
+                      className="container-icon-text-button__icon-button"
+                    />{" "}
+                    Eliminar
+                  </div>
                 </BtnShowModal>
               </td>
             </tr>

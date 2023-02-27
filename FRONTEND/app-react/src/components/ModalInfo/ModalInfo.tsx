@@ -1,20 +1,10 @@
 interface Props {
   titleModal: string;
-  titleButtonSave: string;
-  titleButtonClose: string;
   children: JSX.Element;
-  eventSave?: () => void;
   id: string;
 }
 export const ModalInfo = (props: Props) => {
-  const {
-    children,
-    titleModal,
-    titleButtonSave = "Enviar",
-    eventSave,
-    id,
-    titleButtonClose,
-  } = props;
+  const { children, titleModal, id } = props;
   return (
     <div
       className="modal fade"
@@ -39,23 +29,6 @@ export const ModalInfo = (props: Props) => {
             ></button>
           </div>
           <div className="modal-body">{children}</div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-primary"
-              data-bs-dismiss="modal"
-              onClick={eventSave}
-            >
-              {titleButtonSave}
-            </button>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              {titleButtonClose}
-            </button>
-          </div>
         </div>
       </div>
     </div>

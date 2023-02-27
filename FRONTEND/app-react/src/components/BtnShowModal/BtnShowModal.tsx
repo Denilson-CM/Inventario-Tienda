@@ -3,7 +3,7 @@ interface Props {
   className?: string;
   bgColor: string;
   colorText?: string;
-  children: string;
+  children: JSX.Element | string;
   event?: () => void;
 }
 export const BtnShowModal = (props: Props) => {
