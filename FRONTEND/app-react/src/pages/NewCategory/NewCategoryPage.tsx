@@ -49,7 +49,7 @@ export const NewCategoryPage = () => {
                 <img
                   src="./assets/icons/icon-agregar.svg"
                   alt="icono-productos"
-                  className="container-icon-text-button__icon-button"
+                  className="container-icon-text-button__Margin"
                 />{" "}
                 Agregar
               </div>

@@ -40,7 +40,6 @@ export const TableCategories = (props: Props) => {
                       alt="icono-productos"
                       className="container-icon-text-button__icon-button"
                     />{" "}
-                    Actualizar
                   </div>
                 </BtnShowModal>
                 <BtnShowModal
@@ -55,7 +54,6 @@ export const TableCategories = (props: Props) => {
                       alt="icono-productos"
                       className="container-icon-text-button__icon-button"
                     />{" "}
-                    Eliminar
                   </div>
                 </BtnShowModal>
               </td>

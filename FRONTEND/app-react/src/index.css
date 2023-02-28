@@ -53,5 +53,10 @@ tr:nth-of-type(2n) {
 .container-icon-text-button__icon-button {
   width: 1em;
   height: 1em;
+}
+
+.container-icon-text-button__Margin {
+  width: 1em;
+  height: 1em;
   margin: 0 .5rem 0 0;
 }
