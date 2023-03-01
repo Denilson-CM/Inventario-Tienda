@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 // import { urlEliminarC, urlGuardarC, urlListaC, urlListaP } from "../endpoints";
 import { Categories, eventsForm, PropsFormCategory } from "../interfaces/types";
 
@@ -10,24 +10,32 @@ const INITIAL_STATE_LIST_NEW_CATEGORIES: Categories = {
 };
 
 export const useFormCategory = (props: PropsFormCategory) => {
-  const { methodsFormCategorie } = props;
-  const { addNewCategorie } = methodsFormCategorie;
+  const { methodsFormCategorie, categorieSelected } = props;
+  const { addNewCategorie, updateCategorie } = methodsFormCategorie;
 
-  const [newCategorie, seNewCategorie] = useState<Categories>(
+  const [newCategorie, setNewCategorie] = useState<Categories>(
     INITIAL_STATE_LIST_NEW_CATEGORIES
   );
 
   const nameCategorie = useRef<HTMLInputElement>(null);
 
+  useEffect (() => {
+    if(categorieSelected){
+      setNewCategorie (categorieSelected);
+    }
+    else{
+      setNewCategorie (INITIAL_STATE_LIST_NEW_CATEGORIES);
+    }
+  }, [categorieSelected])
+
   const handleChange = (e: eventsForm["change"]) => {
-    seNewCategorie({
+    setNewCategorie({
       ...newCategorie,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleAdd = (e: eventsForm["submit"]) => {
-    e.preventDefault();
+  const handleAdd = () => {
     if (!newCategorie.nombre || !newCategorie.descripcion) {
       alert("Datos Incompletos");
       return;
@@ -41,9 +49,19 @@ export const useFormCategory = (props: PropsFormCategory) => {
     handleReset();
   };
 
-  const handleReset = () => {
-    seNewCategorie(INITIAL_STATE_LIST_NEW_CATEGORIES);
+  const handleSubmit = (e: eventsForm["submit"]) => {
+    e.preventDefault();
+    if (newCategorie.id === ""){
+      handleAdd();
+    }
+    else{
+      updateCategorie(newCategorie);
+    }
   };
 
-  return { handleChange, handleAdd, newCategorie, nameCategorie };
+  const handleReset = () => {
+    setNewCategorie(INITIAL_STATE_LIST_NEW_CATEGORIES);
+  };
+
+  return { handleChange, handleSubmit, newCategorie, nameCategorie };
 };

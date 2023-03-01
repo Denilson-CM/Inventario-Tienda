@@ -2,11 +2,11 @@ import { useFormCategory } from "../../hooks/useFormCategory";
 import { PropsFormCategory } from "../../interfaces/types";
 
 export const FormCategory = (props: PropsFormCategory) => {
-  const { handleChange, handleAdd, newCategorie, nameCategorie } =
+  const { handleChange, handleSubmit, newCategorie, nameCategorie } =
     useFormCategory(props);
-
+  const {dismissModal}=props  
   return (
-    <form onSubmit={handleAdd}>
+    <form onSubmit={handleSubmit}>
       <div className="form-floating mb-3">
         <input
           type="text"
@@ -31,9 +31,9 @@ export const FormCategory = (props: PropsFormCategory) => {
           placeholder="Escribe aqui la descripción de la categoria"
           style={{ resize: "none" }}
         ></textarea>
-        <label htmlFor="descripcion-categoria">Descripción</label>
+        <label htmlFor="descripcion-categoria">Comentario</label>
       </div>
-      <button type="submit" className="btn btn-info mb-3">
+      <button type="submit" className="btn btn-info mb-3" data-bs-dismiss={dismissModal}>
         Agregar
       </button>
     </form>

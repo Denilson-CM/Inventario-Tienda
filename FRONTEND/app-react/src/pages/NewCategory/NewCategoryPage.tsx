@@ -1,3 +1,4 @@
+import { Toast } from "bootstrap";
 import { BtnShowModal } from "../../components/BtnShowModal/BtnShowModal";
 import { FormCategory } from "../../components/FormCategory/FormProductCategory";
 import { InputForm } from "../../components/InputForm/InputForm";
@@ -8,12 +9,14 @@ import { ModalInfo } from "../../components/ModalInfo/ModalInfo";
 import { TableCategories } from "../../components/TableCategories/TableCategories";
 
 import { TableCategoriesLocal } from "../../components/TableCategoriesLocal/TableCategoriesLocal";
+import { ToastMessage } from "../../components/ToastMessage/ToastMessage";
 import { useCategories } from "../../hooks/useCategories";
 
 export const NewCategoryPage = () => {
   const {
     listCategories,
     loading,
+    error,
     listNewCategories,
     addNewCategorie,
     postCategorie,
@@ -23,13 +26,13 @@ export const NewCategoryPage = () => {
     filterCategorie,
     selectCategorie,
     categorieSelected,
+    getCategoriesFromApi
   } = useCategories();
-
   const methodsFormCategorie = {
     addNewCategorie,
     updateCategorie,
   };
-
+  console.log(error);
   return (
     <section className="container min-vh-100">
       <section className="row mt-3">
@@ -39,6 +42,7 @@ export const NewCategoryPage = () => {
       </section>
       <section className="container">
         <section className="row ">
+          {error !== null ? <ToastMessage message = {error.toString()} eventClick = {getCategoriesFromApi} /> : null}
           <article className="col-12 d-flex justify-content-end">
             <BtnShowModal
               idTargetModal="modal-add-categories"
@@ -100,7 +104,7 @@ export const NewCategoryPage = () => {
           // eventSave={() => updateCategorie()}
         >
           <section>
-            <FormCategory methodsFormCategorie={methodsFormCategorie} />
+            <FormCategory dismissModal={"modal"} categorieSelected={categorieSelected} methodsFormCategorie={methodsFormCategorie} />
           </section>
         </ModalInfo>
 

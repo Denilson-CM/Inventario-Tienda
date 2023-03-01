@@ -1,4 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { urlEditarC } from "../endpoints";
+import { helpHttp } from "../helpers/helpHttp";
 import { Categories, eventsForm } from "../interfaces/types";
 import {
   delFromCategories,
@@ -26,7 +28,7 @@ export const useCategories = () => {
     INITIAL_CATEGORIE_SELECTED
   );
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Object | null>({});
+  const [error, setError] = useState<Object | null>(null);
 
   useEffect(() => {
     getCategoriesFromApi();
@@ -62,14 +64,27 @@ export const useCategories = () => {
         setError(res.success);
       }
       setListNewCategories([]);
-      getCategoriesFromApi();
+      // getCategoriesFromApi();
     } else {
       setError(res);
     }
   };
-  const updateCategorie = () => {
-    console.log(categorieSelected);
+  
+  const updateCategorie = async (updateCategorie : Categories) => {
+    let options = {
+      body: updateCategorie,
+      headers: { "content-type": "application/json" },
+    };
+    try {
+      let res = await helpHttp().put(urlEditarC, options);
+      let editCategories = listApiCategories.map((categorie) => categorie.id === updateCategorie.id ? updateCategorie : categorie)
+      setListApiCategories(editCategories);
+      setError(res.success)
+    } catch (error : any) {
+      setError(error);
+    }
   };
+  
   const deleteCategorie = async () => {
     let idCategorie = categorieSelected.id;
 
@@ -114,5 +129,6 @@ export const useCategories = () => {
     setFilterStateCategorie,
     categorieSelected,
     filterCategorie,
+    getCategoriesFromApi
   };
 };

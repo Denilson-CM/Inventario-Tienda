@@ -22,7 +22,10 @@ export interface RequestInit {
 export interface PropsFormCategory {
   methodsFormCategorie: {
     addNewCategorie: (newCategorie: Categories) => void;
+    updateCategorie: (updateCategorie: Categories) => void;
   };
+  categorieSelected? : Categories;
+  dismissModal? : string;
 }
 
 interface eventsForm {
