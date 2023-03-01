@@ -102,12 +102,12 @@ namespace BACKEND.Controllers
                         await _dbcontext.SaveChangesAsync();
 
                         transaction.Commit();
-                        return StatusCode(StatusCodes.Status200OK, new { success = $"{contadorE} productos ya existían en la base de datos y se crean {bandera} nuevos productos.." });
+                        return StatusCode(StatusCodes.Status200OK, new { success = true, response = $"{contadorE} productos ya existían en la base de datos y se crean {bandera} nuevos productos.." });
                     }
                     catch (Exception ex)
                     {
                         transaction.Rollback();
-                        return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrio un erro al Guardar");
+                        return StatusCode(StatusCodes.Status500InternalServerError, new { success = false, response = "Ocurrio un erro al Guardar" });
                     }
                 }
             }
@@ -129,7 +129,7 @@ namespace BACKEND.Controllers
 
                     if (repetido != null)
                     {
-                        return StatusCode(StatusCodes.Status400BadRequest, "Ya existe un producto con el mismo Nombre o Codigo");
+                        return StatusCode(StatusCodes.Status200OK, new { success = true, response = "Ya existe un producto con el mismo Nombre o Codigo" });
                     }
 
                     var objProducto = _dbcontext.Productos.Where(s => s.Id == model.Id).FirstOrDefault();
@@ -147,18 +147,18 @@ namespace BACKEND.Controllers
 
                         transaction.Commit();
 
-                        return StatusCode(StatusCodes.Status200OK, "Producto Actualizado");
+                        return StatusCode(StatusCodes.Status200OK, new { success = true, response = "Producto Actualizado" });
 
                     }
                     else
                     {
-                        return StatusCode(StatusCodes.Status400BadRequest, "El Producto no existe");
+                        return StatusCode(StatusCodes.Status200OK, new { success = true, response = "El Producto no existe" });
                     }
                 }
                 catch (Exception ex)
                 {
                     transaction.Rollback();
-                    return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrio un error al Editar");
+                    return StatusCode(StatusCodes.Status500InternalServerError, new { success = false, response = "Ocurrio un error al Editar" });
                 }
             }
         }
@@ -176,12 +176,12 @@ namespace BACKEND.Controllers
                     await _dbcontext.SaveChangesAsync();
 
                     transaction.Commit();
-                    return StatusCode(StatusCodes.Status200OK, "Producto Eliminado");
+                    return StatusCode(StatusCodes.Status200OK, new { success = true, response = "Producto Eliminado" });
                 }
                 catch (Exception ex)
                 {
                     transaction.Rollback();
-                    return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrio un error al Eliminar");
+                    return StatusCode(StatusCodes.Status500InternalServerError, new { success = false, response = "Ocurrio un error al Eliminar"});
                 }
             }
         }

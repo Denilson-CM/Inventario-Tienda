@@ -83,16 +83,16 @@ namespace BACKEND.Controllers
                         await _dbcontext.SaveChangesAsync();
 
                         transaction.Commit();
-                        return StatusCode(StatusCodes.Status200OK, new { success = $"{contadorE} categorias ya existían en la base de datos y se crean {bandera} nuevas categorias.." });
+                        return StatusCode(StatusCodes.Status200OK, new { success = true, response = $"{contadorE} categorias ya existían en la base de datos y se crean {bandera} nuevas categorias.." });
                     }
                     catch (Exception ex)
                     {
                         transaction.Rollback();
-                        return StatusCode(StatusCodes.Status500InternalServerError, "");
+                        return StatusCode(StatusCodes.Status500InternalServerError, new { success = false, response = "" });
                     }
                 }
             }
-            return StatusCode(StatusCodes.Status500InternalServerError, "Modelo Invalido");
+            return StatusCode(StatusCodes.Status500InternalServerError, new { success = false, response = "Modelo Invalido" });
         }
 
         [HttpPut]
@@ -110,7 +110,7 @@ namespace BACKEND.Controllers
 
                     if (repetido != null)
                     {
-                        return StatusCode(StatusCodes.Status400BadRequest, "Ya existe una categoria con el mismo Nombre");
+                        return StatusCode(StatusCodes.Status200OK, new { success = true, response = "Ya existe una categoria con el mismo Nombre" });
                     }
 
                     var objCategoria = _dbcontext.Categorias.Where(s => s.Id == model.Id).FirstOrDefault();
@@ -125,18 +125,18 @@ namespace BACKEND.Controllers
 
                         transaction.Commit();
 
-                        return StatusCode(StatusCodes.Status200OK, "Categoria Actualizada");
+                        return StatusCode(StatusCodes.Status200OK, new { success = true, response = "Categoria Actualizada" });
 
                     }
                     else
                     {
-                        return StatusCode(StatusCodes.Status400BadRequest, "La Categoria no existe");
+                        return StatusCode(StatusCodes.Status200OK, new { success = true, response = "La Categoria no existe" });
                     }
                 }
                 catch (Exception ex)
                 {
                     transaction.Rollback();
-                    return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrio un error al Editar");
+                    return StatusCode(StatusCodes.Status500InternalServerError, new { success = false, response = "Ocurrio un error al Editar" });
                 }
             }
         }
@@ -160,17 +160,17 @@ namespace BACKEND.Controllers
                         await _dbcontext.SaveChangesAsync();
 
                         transaction.Commit();
-                        return StatusCode(StatusCodes.Status200OK, "Categoria Eliminada");
+                        return StatusCode(StatusCodes.Status200OK, new { success = true, response = "Categoria Eliminada" });
                     }
                     catch (Exception ex)
                     {
                         transaction.Rollback();
-                        return StatusCode(StatusCodes.Status500InternalServerError,"");
+                        return StatusCode(StatusCodes.Status500InternalServerError, new { success = true, response = "Ocurrio un error" });
                     }
                 }
                 else
                 {
-                    return StatusCode(StatusCodes.Status404NotFound, "La categoria hace referencia a un producto");
+                    return StatusCode(StatusCodes.Status200OK, new { success = true, response = "La categoria hace referencia a un producto" });
                 }
             }
         }

@@ -59,14 +59,12 @@ export const useCategories = () => {
   };
   const postCategorie = async () => {
     let res = await postFromCategories(listNewCategories);
-    if (!res.err) {
       if (res.success) {
-        setError(res.success);
+        setError(res.response);
+        setListNewCategories([]);
       }
-      setListNewCategories([]);
-      // getCategoriesFromApi();
-    } else {
-      setError(res);
+      else {
+      setError(res.response);
     }
   };
   
@@ -75,14 +73,15 @@ export const useCategories = () => {
       body: updateCategorie,
       headers: { "content-type": "application/json" },
     };
-    try {
-      let res = await helpHttp().put(urlEditarC, options);
-      let editCategories = listApiCategories.map((categorie) => categorie.id === updateCategorie.id ? updateCategorie : categorie)
-      setListApiCategories(editCategories);
-      setError(res.success)
-    } catch (error : any) {
-      setError(error);
-    }
+    let res = await helpHttp().put(urlEditarC, options);
+      if (res.success) {
+        let editCategories = listApiCategories.map((categorie) => categorie.id === updateCategorie.id ? updateCategorie : categorie)
+        setListApiCategories(editCategories);
+        setError(res.response);
+      }
+      else {
+      setError(res.response);
+      }
   };
   
   const deleteCategorie = async () => {
